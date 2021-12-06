@@ -57,7 +57,7 @@ namespace IT
 
 	int IsId(IdTable& idtable, std::string id, std::string scope) {
 		for (int i = 0; i < idtable.size; ++i) {
-			if (idtable.table[i].id == id && idtable.table[i].scope == scope) {
+			if (idtable.table[i].id == id && (idtable.table[i].scope == scope || idtable.table[i].scope == TI_SCOPE_DEFAULT)) {
 				return i;
 			}
 		}

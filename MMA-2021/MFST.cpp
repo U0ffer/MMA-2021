@@ -145,7 +145,7 @@ namespace MFST
 		return rc;
 	};
 
-	bool Mfst::start(std::ostream& outputStream)
+	void Mfst::start(std::ostream& outputStream)
 	{
 		MFST_TRACE_START
 		bool rc = false;
@@ -182,7 +182,7 @@ namespace MFST
 
 
 		}
-		return rc;
+		if (!rc) throw ERROR_THROW(606);
 	};
 
 	char* Mfst::getCSt(char* buf)

@@ -107,7 +107,7 @@ namespace MFST
 		bool resetstate();					//восстановить состояние автомата
 		bool push_chain(GRB::Rule::Chain chain);		//поместить цепочку правила в стек
 		RC_STEP step();						//выполнить шаг автомата
-		bool start(std::ostream& outputStream);						//запустить автомат
+		void start(std::ostream& outputStream);						//запустить автомат
 		bool savediagnosis(RC_STEP pprc_step);			//код завершения шага
 		void printrules();					//вывести послдеовательность правил
 

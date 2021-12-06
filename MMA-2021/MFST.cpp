@@ -41,8 +41,9 @@ namespace MFST
 		nrule_chain = pnrule_chain;
 	};
 	Mfst::Mfst() { lenta = 0; lenta_size = lenta_position = 0; };
-	Mfst::Mfst(LT::LexTable& lextable, GRB::Greibach pgrebach)
+	Mfst::Mfst(LT::LexTable& lextable, GRB::Greibach pgrebach, const std::string filePath)
 	{
+		stream.open(filePath);
 		grebach = pgrebach;
 		lex = lextable;
 		lenta = new short[lenta_size = lex.size];
@@ -144,8 +145,9 @@ namespace MFST
 		return rc;
 	};
 
-	bool Mfst::start()
+	bool Mfst::start(std::ostream& outputStream)
 	{
+		MFST_TRACE_START
 		bool rc = false;
 		RC_STEP rc_step = SURPRISE;
 		char buf[MFST_DIAGN_MAXSIZE]{};
@@ -158,9 +160,8 @@ namespace MFST
 		case LENTA_END:
 		{
 			MFST_TRACE4("------>LENTA_END")
-				std::cout << "------------------------------------------------------------------------------------------   ------" << std::endl;
-			sprintf_s(buf, MFST_DIAGN_MAXSIZE, "%d: всего строк %d, синтаксический анализ выполнен без ошибок", 0, lex.table[lex.size - 1].sn);
-			std::cout << std::setw(4) << std::left << 0 << "всего строк " << lex.table[lex.size - 1].sn << ", синтаксический анализ выполнен без ошибок" << std::endl;
+				stream << "------------------------------------------------------------------------------------------   ------" << std::endl;
+			outputStream << "Всего строк " << lex.table[lex.size - 1].sn << ", синтаксический анализ выполнен без ошибок" << std::endl;
 			rc = true;
 			break;
 		}
@@ -168,10 +169,10 @@ namespace MFST
 		case NS_NORULE:
 		{
 			MFST_TRACE4("------>NS_NORULE")
-				std::cout << "------------------------------------------------------------------------------------------   ------" << std::endl;
-			std::cout << getDiagnosis(0, buf) << std::endl;
-			std::cout << getDiagnosis(1, buf) << std::endl;
-			std::cout << getDiagnosis(2, buf) << std::endl;
+				outputStream << "------------------------------------------------------------------------------------------   ------" << std::endl;
+			outputStream << getDiagnosis(0, buf) << std::endl;
+			outputStream << getDiagnosis(1, buf) << std::endl;
+			outputStream << getDiagnosis(2, buf) << std::endl;
 			break;
 		}
 

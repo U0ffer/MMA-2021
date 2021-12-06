@@ -29,9 +29,8 @@ int main(int argc, char* argv[])
 		IT::ShowTable(idTable, log.stream);
 		Log::WriteLine(log, "------ Таблица лексем ------", "");
 		LT::ShowTable(lexTable, log.stream);
-		MFST::Mfst mfst(lexTable, GRB::getGreibach());
-		MFST_TRACE_START
-		mfst.start();
+		MFST::Mfst mfst(lexTable, GRB::getGreibach(), parm.mfst);
+		mfst.start(*log.stream);
 		mfst.savededucation();
 		mfst.printrules();
 		PN::PolishNotation(lexTable, idTable);

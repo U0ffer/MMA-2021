@@ -36,18 +36,12 @@ namespace LT {
 	}
 
 	void ShowTable(LexTable& lextable, std::ofstream* stream) {
-		*stream << std::setw(5) << "index" << std::setw(10) << "lexema" << std::setw(10)<< "ti_idx" << '\n';
-		for (int i = 0; i < lextable.size; ++i)
-		{
-			*stream << std::setw(5) << i << std::setw(10) << lextable.table[i].lexema << std::setw(10);
-			if (lextable.table[i].idxTI == -1)
-			{
-				*stream << '-';
+		for (int i = 0; i < lextable.size; ++i) {
+			if (lextable.table[i].lexema == LEX_SEMICOLON) *stream << lextable.table[i].lexema << std::endl;
+			else {
+				*stream << lextable.table[i].lexema;
+				if (lextable.table[i].idxTI != -1) *stream << "<" << lextable.table[i].idxTI << ">";
 			}
-			else
-				*stream << lextable.table[i].idxTI;
-			*stream << '\n';
 		}
-		*stream << '\n';
 	}
 }

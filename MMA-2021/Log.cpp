@@ -72,6 +72,9 @@ namespace Log
 			else if (e.word.line != -1 && e.word.word != "") {
 				*log.stream << ", строка " << e.word.line << " ,слово " << e.word.word << std::endl;
 			}
+			else if (e.place.col == -1 && e.place.line != -1) {
+				*log.stream << ", строка " << e.place.line << std::endl;
+			}
 		}
 		else {
 			std::cout << "Ошибка " << e.id << ": " << e.message;

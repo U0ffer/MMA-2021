@@ -184,7 +184,6 @@ void CG::Generation::code()
 				if (lexTable.table[i].lexema == LEX_ID) {
 					if (idTable.table[lexTable.table[i].idxTI].idtype != IT::IDTYPE::F)
 					{
-						std::cout << func << std::endl;
 						if (!func) {
 							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].scope
 								<< idTable.table[lexTable.table[i].idxTI].id << "\n";

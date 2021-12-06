@@ -92,6 +92,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					break;
 				case LEX_STRING_LIT:
 					word = word.substr(1, word.length() - 2);
+					if (word.length() > TI_STR_MAXSIZE) throw ERROR_THROW_IN(124, line, -1);
 					ti_idx = IT::isLit(idtable, word, ti_scope.back());
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, word.c_str() });
@@ -106,6 +107,8 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						word = "-" + word;
 						--lextable.size;
 					}
+					if (std::stoi(word) > INT_MAX || std::stoi(word) < INT_MIN)
+						throw ERROR_THROW_IN(131, line, -1);
 					ti_idx = IT::isLit(idtable, word, ti_scope.back());
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, std::stoi(word) });

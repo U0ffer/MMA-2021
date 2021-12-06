@@ -27,9 +27,6 @@ void PN::ConvertToPolishNotation(LT::LexTable &lexTable, IT::IdTable &idtable, i
 		if ((lex.lexema == LEX_ID || lex.lexema == LEX_LITERAL) && idtable.table[lex.idxTI].idtype != IT::IDTYPE::F) {
 			expression[expressionSize++] = lex;
 		}
-		else if (lex.lexema == LEX_OPERATION && (stack.empty() || stack.top().lexema == LEX_LEFTTHESIS)) {
-			stack.push(lex);
-		}
 		else if (lex.lexema == LEX_LEFTTHESIS) {
 			stack.push(lex);
 		}
@@ -62,6 +59,9 @@ void PN::ConvertToPolishNotation(LT::LexTable &lexTable, IT::IdTable &idtable, i
 			expression[expressionSize++] = copy;
 			expression[expressionSize].lexema = std::to_string(countOfCommas + 1).front();
 			expression[expressionSize++].idxTI = -1;
+		}
+		else if (stack.empty() || stack.top().lexema == LEX_LEFTTHESIS) {
+			stack.push(lex);
 		}
 		else
 		{

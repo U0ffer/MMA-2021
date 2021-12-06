@@ -106,12 +106,6 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 				case LEX_INTEGER:
 					token = LEX_DATATYPE;
 					break;
-				case LEX_PLUS:
-				case LEX_MINUS:
-				case LEX_STAR:
-				case LEX_DIRSLASH:
-					token = LEX_OPERATION;
-					break;
 				case EOF:
 					throw ERROR_THROW_WORD(122, line, word);
 				default:

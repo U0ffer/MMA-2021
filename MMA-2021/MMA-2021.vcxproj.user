@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>-in:in.txt -out:out.txt -log:log.txt</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-in:in.txt -out:out.txt -log:log.txt -mfst:mfst.txt</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

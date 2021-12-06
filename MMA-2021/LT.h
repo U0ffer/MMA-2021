@@ -26,7 +26,6 @@
 #define LEX_MINUS		'-'	
 #define LEX_STAR		'*'
 #define LEX_DIRSLASH	'/'
-#define LEX_OPERATION	'v'
 #define LEX_EQUAL		'='
 #define LEX_COMMERCIAL_AT '@'
 

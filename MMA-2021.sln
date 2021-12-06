@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMA-2021", "MMA-2021\MMA-2021.vcxproj", "{72830926-4F85-4353-A722-959F3EE5125F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMA_Lib", "MMA_Lib\MMA_Lib.vcxproj", "{623C125F-8431-4B1E-A602-C54C71933646}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{72830926-4F85-4353-A722-959F3EE5125F}.Release|x64.Build.0 = Release|x64
 		{72830926-4F85-4353-A722-959F3EE5125F}.Release|x86.ActiveCfg = Release|Win32
 		{72830926-4F85-4353-A722-959F3EE5125F}.Release|x86.Build.0 = Release|Win32
+		{623C125F-8431-4B1E-A602-C54C71933646}.Debug|x64.ActiveCfg = Debug|x64
+		{623C125F-8431-4B1E-A602-C54C71933646}.Debug|x64.Build.0 = Debug|x64
+		{623C125F-8431-4B1E-A602-C54C71933646}.Debug|x86.ActiveCfg = Debug|Win32
+		{623C125F-8431-4B1E-A602-C54C71933646}.Debug|x86.Build.0 = Debug|Win32
+		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x64.ActiveCfg = Release|x64
+		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x64.Build.0 = Release|x64
+		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x86.ActiveCfg = Release|Win32
+		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

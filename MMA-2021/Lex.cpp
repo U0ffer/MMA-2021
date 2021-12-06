@@ -38,6 +38,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 	int counter = 0;
 	bool findStringLit = false;
 	bool inLineFunction = false;
+	int isMain = 0;
 	for (int i = 0, line = 1; i < in.text.size(); ++i)
 	{
 		IT::IDDATATYPE iddatatype;
@@ -54,6 +55,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 				case LEX_MAIN:
 					IT::Add(idtable, { lextable.size + 1, word, ti_scope.back(), IT::IDDATATYPE::UINT, IT::IDTYPE::F });
 					ti_scope.push_back("main");
+					isMain == 0 ? ++isMain : throw ERROR_THROW(128);
 					break;
 				case LEX_ID:
 					ti_idx = IT::IsId(idtable, word, ti_scope.back());
@@ -142,4 +144,5 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 			word += ch;
 		}
 	}
+	if (isMain == 0) throw ERROR_THROW(129);
 }

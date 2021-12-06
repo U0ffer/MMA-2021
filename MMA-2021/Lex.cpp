@@ -99,6 +99,11 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					token = LEX_LITERAL;
 					break;
 				case LEX_INTEGER_LIT:
+					if (lextable.size >= 2 && lextable.table[lextable.size - 1].lexema == LEX_MINUS && lextable.table[lextable.size - 1].lexema != LEX_ID)
+					{
+						word = "-" + word;
+						--lextable.size;
+					}
 					ti_idx = IT::isLit(idtable, word, ti_scope.back());
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, std::stoi(word) });

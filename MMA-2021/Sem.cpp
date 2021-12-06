@@ -72,6 +72,16 @@ bool Sem::checkSemantic(LT::LexTable& lexTable, IT::IdTable& idTable) {
 				}
 			}
 			break;
+
+		case LEX_LITERAL:
+			IT::IDDATATYPE typeOfLiteral = idTable.table[lexTable.table[i].idxTI].iddatatype;
+			if (typeOfLiteral == IT::IDDATATYPE::STR && strlen(idTable.table[lexTable.table[i].idxTI].value.vstr.str) > TI_STR_MAXSIZE) {
+				throw ERROR_THROW_IN(310, lexTable.table[i].sn, -1);
+			}
+			else if (typeOfLiteral == IT::IDDATATYPE::UINT && idTable.table[lexTable.table[i].idxTI].value.vint > INT_MAX - INT_MIN) {
+				throw ERROR_THROW_IN(311, lexTable.table[i].sn, -1);
+			}
+			break;
 		}
 	}
 	return true;

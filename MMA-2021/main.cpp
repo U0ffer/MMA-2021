@@ -9,6 +9,7 @@
 #include "GRB.h"
 #include "MFST.h"
 #include "PN.h"
+#include "Sem.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,8 +32,11 @@ int main(int argc, char* argv[])
 		LT::ShowTable(lexTable, log.stream);
 		MFST::Mfst mfst(lexTable, GRB::getGreibach(), parm.mfst);
 		mfst.start(*log.stream);
+		Log::WriteLine(log, "------ Синтаксический анализ выполнен без ошибок ------", "");
 		mfst.savededucation();
 		mfst.printrules();
+		Sem::checkSemantic(lexTable, idTable);
+		Log::WriteLine(log, "------ Семантический анализ выполнен без ошибок ------", "");
 		PN::PolishNotation(lexTable, idTable);
 		Log::WriteLine(log, "------ Таблица лексем после польской нотации ------", "");
 		LT::ShowTable(lexTable, log.stream);

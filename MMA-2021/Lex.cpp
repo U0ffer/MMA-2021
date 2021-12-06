@@ -75,6 +75,9 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						else if (lextable.size >= 1 && lextable.table[lextable.size - 1].lexema == LEX_DATATYPE) {
 							IT::Add(idtable, { lextable.size, word, ti_scope.back(), iddatatype, IT::IDTYPE::P });
 						}
+						else {
+							throw ERROR_THROW_IN(307, line, -1);
+						}
 						ti_idx = idtable.size  - 1;
 					}
 					break;

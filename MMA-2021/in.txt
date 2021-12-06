@@ -19,7 +19,7 @@ main
  declare string sb; 
  declare string sc; 
  declare uint function strln(string p); 
- x = 1; 
+ x = -1; 
  y = 5 * 5; 
  sa = '1234567890'; 
  sb = '1234567890'; 

@@ -62,7 +62,10 @@ bool Sem::checkSemantic(LT::LexTable& lexTable, IT::IdTable& idTable)
 			if ((i - 1 >= 0) && idTable.table[lexTable.table[i].idxTI].idtype == IT::IDTYPE::F) {
 				throw ERROR_THROW_IN(304, lexTable.table[i].sn, -1);
 			}
-
+			if (lexTable.table[i - 1].lexema == LEX_ID && idTable.table[lexTable.table[i - 1].idxTI].iddatatype == IT::IDDATATYPE::UINT
+				&& idTable.table[lexTable.table[i + 1].idxTI].value.vint < 0 && lexTable.table[i + 2].lexema == LEX_SEMICOLON) {
+				throw ERROR_THROW_IN(309, lexTable.table[i].sn, -1);
+			}
 			IT::IDDATATYPE typeOfIdentificator = idTable.table[lexTable.table[i].idxTI].iddatatype;
 			for (int j = i; lexTable.table[j].lexema != LEX_SEMICOLON; ++j) {
 				if ((lexTable.table[i].lexema == LEX_ID || lexTable.table[i].lexema == LEX_LITERAL) && idTable.table[lexTable.table[i].idxTI].iddatatype != typeOfIdentificator) {

@@ -1,5 +1,5 @@
 ------ Протокол ------
-Дата: 06.12.2021 12:32:11  
+Дата: 06.12.2021 16:37:22  
 
 ------ Параметры ------
 -in:in.txt
@@ -7,8 +7,8 @@
 -log:log.txt
 
 ------ Исходные данные ------
-Количество символов: 567
-Проигнорировано: 47
+Количество символов: 514
+Проигнорировано: 43
 Количество строк: 34
 
 ------ Таблица идентификаторов ------
@@ -25,26 +25,22 @@ index      name      type        id type     scope      lexTable index
     9         a      str         p              fs             49
    10         b      str         p              fs             52
    11         c      str         v              fs             57
-   12    substr      str         f              fs             62
-   13         a      str         p          substr             65
-   14         p      int         p          substr             68
-   15         n      int         p          substr             71
-   16        L4      int         l              fs             80
-   17        L5      int         l              fs             82
-   18      main      int         f          global             93
-   19         x      int         v            main             96
-   20         y      int         v            main            100
-   21         z      int         v            main            104
-   22        sa      str         v            main            108
-   23        sb      str         v            main            112
-   24        sc      str         v            main            116
-   25    strlen      int         f            main            121
-   26         p      str         p          strlen            124
-   27        L6      int         l            main            129
-   28        L7      int         l            main            133
-   29        L8      str         l            main            137
-   30        L9      str         l            main            162
-   31       L10      int         l            main            177
+   12        L4      str         l              fs             61
+   13      main      int         f          global             69
+   14         x      int         v            main             72
+   15         y      int         v            main             76
+   16         z      int         v            main             80
+   17        sa      str         v            main             84
+   18        sb      str         v            main             88
+   19        sc      str         v            main             92
+   20     strln      int         f            main             97
+   21         p      str         p           strln            100
+   22        L5      int         l            main            105
+   23        L6      int         l            main            109
+   24        L7      int         l            main            111
+   25        L8      str         l            main            115
+   26        L9      str         l            main            147
+   27       L10      int         l            main            159
 
 ------ Таблица лексем ------
 tfi<0>(ti<1>,ti<2>){dti<3>;
@@ -52,28 +48,28 @@ i<3>=(i<2>*l<4>)+l<5>/(i<1>*(i<1>+i<2>))*l<6>/l<7>;
 ri<3>;
 };
 tfi<8>(ti<9>,ti<10>){dti<11>;
-dtfi<12>(ti<13>,ti<14>,ti<15>);
-i<11>=i<12>(i<9>,l<16>,l<17>)+i<10>;
+i<11>=l<12>;
 ri<11>;
 };
-m{dti<19>;
-dti<20>;
-dti<21>;
-dti<22>;
-dti<23>;
-dti<24>;
-dtfi<25>(ti<26>);
-i<19>=l<27>;
-i<20>=l<28>;
-i<22>=l<29>;
-i<23>=l<29>;
-i<21>=i<0>(i<19>,i<20>);
-i<24>=i<8>(i<22>,i<23>);
-pl<30>;
-pi<21>;
-pi<24>;
-pi<25>(i<24>);
-rl<31>;
+m{dti<14>;
+dti<15>;
+dti<16>;
+dti<17>;
+dti<18>;
+dti<19>;
+dtfi<20>(ti<21>);
+i<14>=l<22>;
+i<15>=l<23>*l<24>;
+i<17>=l<25>;
+i<18>=l<25>;
+i<16>=i<0>(i<14>,i<15>);
+i<19>=i<8>(i<17>,i<18>);
+i<14>=i<20>(i<19>);
+pl<26>;
+pi<16>;
+pi<19>;
+pi<15>;
+rl<27>;
 };
 ------ Синтаксический анализ выполнен без ошибок ------
 ------ Семантический анализ выполнен без ошибок ------
@@ -83,26 +79,26 @@ i<3>=i<2>l<4>*l<5>i<1>i<1>i<2>+*/l<6>*l<7>/+;
 ri<3>;
 };
 tfi<8>(ti<9>,ti<10>){dti<11>;
-dtfi<12>(ti<13>,ti<14>,ti<15>);
-i<11>=i<9>l<16>l<17>@<12>3i<10>+;
+i<11>=l<12>;
 ri<11>;
 };
-m{dti<19>;
-dti<20>;
-dti<21>;
-dti<22>;
-dti<23>;
-dti<24>;
-dtfi<25>(ti<26>);
-i<19>=l<27>;
-i<20>=l<28>;
-i<22>=l<29>;
-i<23>=l<29>;
-i<21>=i<19>i<20>@<0>2;
-i<24>=i<22>i<23>@<8>2;
-pl<30>;
-pi<21>;
-pi<24>;
-pi<25>(i<24>);
-rl<31>;
+m{dti<14>;
+dti<15>;
+dti<16>;
+dti<17>;
+dti<18>;
+dti<19>;
+dtfi<20>(ti<21>);
+i<14>=l<22>;
+i<15>=l<23>l<24>*;
+i<17>=l<25>;
+i<18>=l<25>;
+i<16>=i<14>i<15>@<0>2;
+i<19>=i<17>i<18>@<8>2;
+i<14>=i<19>@<20>1;
+pl<26>;
+pi<16>;
+pi<19>;
+pi<15>;
+rl<27>;
 };

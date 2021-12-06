@@ -10,6 +10,7 @@
 #include "MFST.h"
 #include "PN.h"
 #include "Sem.h"
+#include "CG.h"
 
 int main(int argc, char* argv[])
 {
@@ -40,6 +41,8 @@ int main(int argc, char* argv[])
 		PN::PolishNotation(lexTable, idTable);
 		Log::WriteLine(log, "------ Таблица лексем после польской нотации ------", "");
 		LT::ShowTable(lexTable, log.stream);
+		CG::Generation WriteToOut = CG::Generation(lexTable, idTable, parm.out);
+		WriteToOut.start();
 		Log::Close(log);
 	}
 	catch (Error::ERROR err)

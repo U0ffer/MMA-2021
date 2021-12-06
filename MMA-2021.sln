@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMA-2021", "MMA-2021\MMA-20
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMA_Lib", "MMA_Lib\MMA_Lib.vcxproj", "{623C125F-8431-4B1E-A602-C54C71933646}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMA-ASM", "MMA-ASM\MMA-ASM.vcxproj", "{DF9471D1-006D-4A11-9600-487FA0099AB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x64.Build.0 = Release|x64
 		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x86.ActiveCfg = Release|Win32
 		{623C125F-8431-4B1E-A602-C54C71933646}.Release|x86.Build.0 = Release|Win32
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Debug|x64.ActiveCfg = Debug|x64
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Debug|x64.Build.0 = Debug|x64
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Debug|x86.ActiveCfg = Debug|Win32
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Debug|x86.Build.0 = Debug|Win32
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Release|x64.ActiveCfg = Release|x64
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Release|x64.Build.0 = Release|x64
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Release|x86.ActiveCfg = Release|Win32
+		{DF9471D1-006D-4A11-9600-487FA0099AB3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

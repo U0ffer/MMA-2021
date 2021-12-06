@@ -41,8 +41,11 @@ int main(int argc, char* argv[])
 		PN::PolishNotation(lexTable, idTable);
 		Log::WriteLine(log, "------ Таблица лексем после польской нотации ------", "");
 		LT::ShowTable(lexTable, log.stream);
-		CG::Generation WriteToOut = CG::Generation(lexTable, idTable, parm.out);
-		WriteToOut.start();
+		CG::Generation writeToOut = CG::Generation(lexTable, idTable, parm.out);
+		CG::Generation writeToASM = CG::Generation(lexTable, idTable, "../MMA-ASM/asm.asm");
+		writeToOut.start();
+		writeToASM.start();
+		Log::WriteLine(log, "------ Генерация кода выполнен без ошибок ------", "");
 		Log::Close(log);
 	}
 	catch (Error::ERROR err)

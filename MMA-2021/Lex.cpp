@@ -91,6 +91,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, word.c_str() });
 						++counter;
+						ti_idx = idtable.size - 1;
 					}
 					token = LEX_LITERAL;
 					break;
@@ -99,6 +100,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, std::stoi(word) });
 						++counter;
+						ti_idx = idtable.size - 1;
 					}
 					token = LEX_LITERAL;
 					break;

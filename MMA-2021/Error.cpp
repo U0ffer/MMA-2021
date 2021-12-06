@@ -87,7 +87,7 @@ Error::ERROR errors[ERROR_MAX_ENTRY] =
 	ERROR_ENTRY(603,"[Cинтаксическая] Ошибка в параметрах функции"),
 	ERROR_ENTRY(604,"[Cинтаксическая] Ошибка в параметрах вызываемой функции"),
 	ERROR_ENTRY(605,"[Cинтаксическая] Ошибочное определение логического условия"),
-	ERROR_ENTRY_NODEF(606),
+	ERROR_ENTRY(606, "[Синтаксическа] Произошла ошибка во время синтаксического анализа"),
 	ERROR_ENTRY_NODEF(607),
 	ERROR_ENTRY_NODEF(608),
 	ERROR_ENTRY_NODEF(609),

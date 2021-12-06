@@ -9,7 +9,7 @@
 
 namespace IT
 {
-	enum class IDDATATYPE { INT = 1, STR = 2 };
+	enum class IDDATATYPE { UINT = 1, STR = 2 };
 	enum class IDTYPE { V = 1, F = 2, P = 3, L = 4 };
 
 	struct Entry

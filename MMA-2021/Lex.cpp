@@ -46,13 +46,13 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 			char token = Lex::GetToken(word);
 			int ti_idx = TI_NULLIDX;
 
-			iddatatype = (token == LEX_INTEGER || token == LEX_INTEGER_LIT) ? IT::IDDATATYPE::INT :
+			iddatatype = (token == LEX_INTEGER || token == LEX_INTEGER_LIT) ? IT::IDDATATYPE::UINT :
 				(token == LEX_STRING || token == LEX_STRING_LIT) ? IT::IDDATATYPE::STR : iddatatype;
 
 			switch (token)
 			{
 				case LEX_MAIN:
-					IT::Add(idtable, { lextable.size + 1, word, ti_scope.back(), IT::IDDATATYPE::INT, IT::IDTYPE::F });
+					IT::Add(idtable, { lextable.size + 1, word, ti_scope.back(), IT::IDDATATYPE::UINT, IT::IDTYPE::F });
 					ti_scope.push_back("main");
 					break;
 				case LEX_ID:

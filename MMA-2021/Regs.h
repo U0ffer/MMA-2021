@@ -2,10 +2,10 @@
 
 #define REG_DECLARE "declare"
 #define REG_STRING "string"
-#define REG_INTEGER "integer"
+#define REG_INTEGER "uint"
 #define REG_FUNCTION "function"
 #define REG_RETURN "return"
-#define REG_PRINT "print"
+#define REG_PRINT "output"
 #define REG_MAIN "main"
 #define REG_ID "[a-z]+"
 #define REG_INTEGER_LIT "[0-9]+"

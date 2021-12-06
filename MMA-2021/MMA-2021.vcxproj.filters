@@ -100,5 +100,8 @@
     <Text Include="out.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="mfst.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 namespace IT
 {
 	IT::Entry::Entry(int idxfirstLE, std::string id, std::string scope, IDTYPE idtype, int value)
-		: idxfirstLE(idxfirstLE), iddatatype(IDDATATYPE::INT), idtype(idtype), id(id), scope(scope)
+		: idxfirstLE(idxfirstLE), iddatatype(IDDATATYPE::UINT), idtype(idtype), id(id), scope(scope)
 	{
 		this->value.vint = value;
 	}
@@ -20,7 +20,7 @@ namespace IT
 	IT::Entry::Entry(int idxfirstLE, std::string id, std::string scope, IDDATATYPE iddatatype, IDTYPE idtype)
 		: idxfirstLE(idxfirstLE), iddatatype(iddatatype), idtype(idtype), id(id), scope(scope)
 	{
-		if (this->iddatatype == IDDATATYPE::INT) {
+		if (this->iddatatype == IDDATATYPE::UINT) {
 			value.vint = TI_INT_DEFAULT;
 		}
 		else {
@@ -90,7 +90,7 @@ namespace IT
 		for (int i = 0; i < idtable.size; ++i) 
 		{
 			*stream << std::setw(5) << i << std::setw(10) << idtable.table[i].id << std::setw(10);
-			if (idtable.table[i].iddatatype == IDDATATYPE::INT)
+			if (idtable.table[i].iddatatype == IDDATATYPE::UINT)
 				*stream << "int ";
 			else if (idtable.table[i].iddatatype == IDDATATYPE::STR)
 				*stream << "str ";

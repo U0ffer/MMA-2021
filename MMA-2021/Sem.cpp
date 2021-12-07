@@ -35,8 +35,6 @@ bool Sem::checkSemantic(LT::LexTable& lexTable, IT::IdTable& idTable)
 						++parmsPassed;
 						IT::IDDATATYPE paramType = idTable.table[lexTable.table[j].idxTI].iddatatype;
 						if (paramType != idTable.table[lexTable.table[i].idxTI + parmsPassed].iddatatype) {
-							std::cout << 99999999 << std::endl;
-							std::cout << (int)paramType << "\t" << idTable.table[lexTable.table[i].idxTI + parmsPassed].id << std::endl;
 							throw ERROR_THROW_IN(302, lexTable.table[i].sn, -1);
 						}
 					}

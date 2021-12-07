@@ -55,18 +55,25 @@ namespace IT
 		return idtable.table[n];
 	}
 
-	int IsId(IdTable& idtable, std::string id, std::string scope) {
+	int IsId(IdTable& idtable, std::string id, std::vector<std::string> scope) {
 		for (int i = 0; i < idtable.size; ++i) {
-			if (idtable.table[i].id == id && (idtable.table[i].scope == scope || idtable.table[i].scope == TI_SCOPE_DEFAULT)) {
-				return i;
+			if (idtable.table[i].id == id) {
+				for (int j = 0; j < scope.size(); ++j)
+				{
+					if (scope[j] == idtable.table[i].scope)
+					{
+						return i;
+					}
+				}
 			}
+
 		}
 		return TI_NULLIDX;
 	}
 
-	int isLit(IdTable& idtable, std::string lit, std::string scope) {
+	int isLit(IdTable& idtable, std::string lit) {
 		for (int i = 0; i < idtable.size; ++i) {
-			if (idtable.table[i].value.vstr.str == lit && idtable.table[i].idtype == IDTYPE::L && idtable.table[i].scope == scope)
+			if (idtable.table[i].value.vstr.str == lit && idtable.table[i].idtype == IDTYPE::L)
 			{
 				return i;
 			}
@@ -74,9 +81,9 @@ namespace IT
 		return TI_NULLIDX;
 	}
 
-	int isLit(IdTable& idtable, int lit, std::string scope) {
+	int isLit(IdTable& idtable, int lit) {
 		for (int i = 0; i < idtable.size; ++i) {
-			if (idtable.table[i].value.vint == lit && idtable.table[i].idtype == IDTYPE::L && idtable.table[i].scope == scope)
+			if (idtable.table[i].value.vint == lit && idtable.table[i].idtype == IDTYPE::L)
 			{
 				return i;
 			}

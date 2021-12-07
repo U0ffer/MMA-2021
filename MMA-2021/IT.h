@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #define ID_MAXSIZE		10			
 #define TI_MAXSIZE		4096		
 #define TI_INT_DEFAULT	0x00000000	
@@ -58,18 +59,16 @@ namespace IT
 	int IsId(
 		IdTable& idtable,
 		std::string id,
-		std::string scope
+		std::vector<std::string> scope
 	);
 
 	int isLit(
 		IdTable& idtable,
-		std::string lit,
-		std::string scope
+		std::string lit
 	);
 	int isLit(
 		IdTable& idtable,
-		int lit,
-		std::string scope
+		int lit
 	);
 	void ShowTable(IdTable& idtable, std::ofstream* stream);
 	void Delete(IdTable& idtable);

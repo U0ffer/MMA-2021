@@ -15,11 +15,21 @@ main
  declare uint x; 
  declare uint y; 
  declare uint z; 
+ {
+  declare uint x;
+  x = 50;
+  {
+   declare uint x;
+   x = 100;
+   z = 6  + x;
+  }
+  output z;
+ }
  declare string sa; 
  declare string sb; 
  declare string sc; 
  declare uint function strln(string p); 
- x = 1; 
+ x = 31016o; 
  y = 5 * 5; 
  sa = '1234567890'; 
  sb = '1234567890'; 

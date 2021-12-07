@@ -74,6 +74,7 @@ void CG::Generation::code()
 	int indOflex = -1;
 	bool func = false;
 	bool main = false;
+	int blockOfCode = false;
 	int stackRet = 0;
 	int Ifsn = 0;
 	int flagelse = 0;
@@ -104,6 +105,9 @@ void CG::Generation::code()
 			out << std::endl;
 			break;
 		}
+		case LEX_MREQUAL:
+			if (lexTable.table[i - 1].lexema == LEX_SEMICOLON) ++blockOfCode;
+			break;
 		case LEX_MAIN: {
 			main = true;
 			out << "main PROC\n";
@@ -115,8 +119,14 @@ void CG::Generation::code()
 				out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " ENDP\n\n";
 				func = false;
 			}
+			else if (blockOfCode > 0)
+			{
+				--blockOfCode;
+			}
 			else
+			{
 				out << "\tcall\t\tExitProcess\n\nmain ENDP\n";
+			}
 			indOfFunc = 0;
 			break;
 		}

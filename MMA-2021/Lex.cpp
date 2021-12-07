@@ -33,12 +33,14 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 	outfile << "0001 ";
 
 	std::string word = "";
+	std::string cur_scope = "";
 	std::vector<std::string> ti_scope = { TI_SCOPE_DEFAULT };
 
 	int counter = 0;
 	bool findStringLit = false;
 	bool inLineFunction = false;
 	int isMain = 0;
+	int scopeCounter = 0;
 	for (int i = 0, line = 1; i < in.text.size(); ++i)
 	{
 		IT::IDDATATYPE iddatatype;
@@ -54,17 +56,18 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 			{
 				case LEX_MAIN:
 					IT::Add(idtable, { lextable.size + 1, word, ti_scope.back(), IT::IDDATATYPE::UINT, IT::IDTYPE::F });
-					ti_scope.push_back("main");
+					cur_scope = "main";
 					isMain == 0 ? ++isMain : throw ERROR_THROW(128);
 					break;
 				case LEX_ID:
-					ti_idx = IT::IsId(idtable, word, ti_scope.back());
+					if (lextable.size >= 2 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE)
+						ti_idx = IT::IsId(idtable, word, ti_scope);
 					if (ti_idx == TI_NULLIDX)
 					{
 						if (lextable.size >= 1 && lextable.table[lextable.size - 1].lexema == LEX_FUNCTION)
 						{
 							IT::Add(idtable, { lextable.size, word, ti_scope.back(), iddatatype, IT::IDTYPE::F });
-							ti_scope.push_back(word);
+							cur_scope = word;
 							if (lextable.size >= 3 && lextable.table[lextable.size - 3].lexema == LEX_DECLARE) {
 								inLineFunction = true;
 							}
@@ -81,10 +84,27 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						ti_idx = idtable.size  - 1;
 					}
 					break;
+				case LEX_LEFTTHESIS:
+					if (lextable.size >= 2 && lextable.table[lextable.size - 2].lexema == LEX_FUNCTION) {
+						ti_scope.push_back(cur_scope);
+					}
+					break;
+				case LEX_MREQUAL:
+					if (cur_scope.empty()) {
+						cur_scope = "scope_" + std::to_string(scopeCounter);
+						++scopeCounter;
+						ti_scope.push_back(cur_scope);
+					}
+					if (ti_scope.back() != cur_scope) {
+						ti_scope.push_back(cur_scope);
+					}
+					cur_scope = "";
+					break;
 				case LEX_RIGHTTHESIS:
 					if (inLineFunction) {
 						ti_scope.pop_back();
 						inLineFunction = false;
+						
 					}
 					break;
 				case LEX_LSEQUAL: 
@@ -93,7 +113,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 				case LEX_STRING_LIT:
 					word = word.substr(1, word.length() - 2);
 					if (word.length() > TI_STR_MAXSIZE) throw ERROR_THROW_IN(124, line, -1);
-					ti_idx = IT::isLit(idtable, word, ti_scope.back());
+					ti_idx = IT::isLit(idtable, word);
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, word.c_str() });
 						++counter;
@@ -112,7 +132,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					}
 					if (std::stoi(word) > INT_MAX || std::stoi(word) < INT_MIN)
 						throw ERROR_THROW_IN(131, line, -1);
-					ti_idx = IT::isLit(idtable, word, ti_scope.back());
+					ti_idx = IT::isLit(idtable, word);
 					if (ti_idx == TI_NULLIDX) {
 						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, std::stoi(word) });
 						++counter;

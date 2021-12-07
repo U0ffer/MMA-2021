@@ -19,18 +19,23 @@ _outInt PROTO : DWORD
 	L2 DWORD 34
 	L3 DWORD 45
 	L4 BYTE 'test string', 0
-	L5 DWORD 1
-	L6 DWORD 5
-	L7 DWORD 5
-	L8 BYTE '1234567890', 0
-	L9 BYTE 'контрольный пример', 0
-	L10 DWORD 0
+	L5 DWORD 50
+	L6 DWORD 100
+	L7 DWORD 6
+	L8 DWORD 12814
+	L9 DWORD 5
+	L10 DWORD 5
+	L11 BYTE '1234567890', 0
+	L12 BYTE 'контрольный пример', 0
+	L13 DWORD 0
 .data
 	_fiz		DWORD 0 ; int
 	_fsc		DWORD 0 ; str
 	_mainx		DWORD 0 ; int
 	_mainy		DWORD 0 ; int
 	_mainz		DWORD 0 ; int
+	_scope_0x		DWORD 0 ; int
+	_scope_1x		DWORD 0 ; int
 	_mainsa		DWORD 0 ; str
 	_mainsb		DWORD 0 ; str
 	_mainsc		DWORD 0 ; str
@@ -151,7 +156,27 @@ main PROC
 	pop			_mainx
 
 	push		L6
+	pop			_mainx
+
 	push		L7
+	push		_mainx
+
+	pop		eax
+	pop		ebx
+	add		eax, ebx
+	jo		EXIT_OVERFLOW
+	push		eax
+
+	pop			_mainz
+
+	push		_mainz
+	call		_outInt
+
+	push		L8
+	pop			_mainx
+
+	push		L9
+	push		L10
 
 	pop		ebx
 	pop		eax
@@ -161,10 +186,10 @@ main PROC
 
 	pop			_mainy
 
-	push		offset L8
+	push		offset L11
 	pop			_mainsa
 
-	push		offset L8
+	push		offset L11
 	pop			_mainsb
 
 	push		_mainx
@@ -184,7 +209,7 @@ main PROC
 	push		eax
 	pop			_mainx
 
-	push		offset L9
+	push		offset L12
 	call		_out
 
 	push		_mainz
@@ -212,7 +237,7 @@ main PROC
 	call ExitProcess
 
 	EXIT:
-	push		L10
+	push		L13
 	call		ExitProcess
 
 main ENDP

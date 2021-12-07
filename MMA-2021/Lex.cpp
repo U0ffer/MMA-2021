@@ -62,8 +62,9 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					isMain == 0 ? ++isMain : throw ERROR_THROW(128);
 					break;
 				case LEX_ID:
-					if (lextable.size >= 3 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE && lextable.table[lextable.size - 3].lexema != LEX_DECLARE)
+					if (lextable.size >= 3 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE && lextable.table[lextable.size - 3].lexema != LEX_DECLARE) {		
 						ti_idx = IT::IsId(idtable, word, ti_scope);
+					}
 					if (ti_idx == TI_NULLIDX)
 					{
 						if (lextable.size >= 1 && lextable.table[lextable.size - 1].lexema == LEX_FUNCTION)
@@ -106,7 +107,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					if (inLineFunction) {
 						ti_scope.pop_back();
 						inLineFunction = false;
-						
+						cur_scope = "";
 					}
 					break;
 				case LEX_LSEQUAL: 

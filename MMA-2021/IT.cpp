@@ -56,17 +56,15 @@ namespace IT
 	}
 
 	int IsId(IdTable& idtable, std::string id, std::vector<std::string> scope) {
-		for (int i = 0; i < idtable.size; ++i) {
-			if (idtable.table[i].id == id) {
-				for (int j = 0; j < scope.size(); ++j)
+		for (int i = scope.size() - 1; i >= 0; --i)
+		{
+			for (int j = 0; j < idtable.size; ++j)
+			{
+				if (idtable.table[j].id == id && idtable.table[j].scope == scope[i])
 				{
-					if (scope[j] == idtable.table[i].scope)
-					{
-						return i;
-					}
+					return j;
 				}
 			}
-
 		}
 		return TI_NULLIDX;
 	}

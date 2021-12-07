@@ -26,8 +26,11 @@ _outInt PROTO : DWORD
 	L9 DWORD 5
 	L10 DWORD 5
 	L11 BYTE '1234567890', 0
-	L12 BYTE 'контрольный пример', 0
-	L13 DWORD 0
+	L12 DWORD 1
+	L13 BYTE 'x > y', 0
+	L14 BYTE 'неправда', 0
+	L15 BYTE 'контрольный пример', 0
+	L16 DWORD 0
 .data
 	_fiz		DWORD 0 ; int
 	_fsc		DWORD 0 ; str
@@ -39,6 +42,7 @@ _outInt PROTO : DWORD
 	_mainsa		DWORD 0 ; str
 	_mainsb		DWORD 0 ; str
 	_mainsc		DWORD 0 ; str
+	_scope_2x		DWORD 0 ; int
 
 .code
 _fi PROC _y: DWORD, _x: DWORD
@@ -110,19 +114,19 @@ _fi PROC _y: DWORD, _x: DWORD
 
 
 	jmp EXIT
-	EXIT_DIV_ON_NULL:
+EXIT_DIV_ON_NULL:
 	push offset _DIVISION_BY_ZERO_ERROR
 	call _out
 	push -1
 	call ExitProcess
 
-	EXIT_OVERFLOW:
+EXIT_OVERFLOW:
 	push offset _OVERFLOW_ERROR
 	call _out
 	push -2
 	call ExitProcess
 
-	EXIT:
+EXIT:
 	mov		eax, _fiz
 	ret		8
 _fi ENDP
@@ -134,32 +138,32 @@ _fs PROC _b: DWORD, _a: DWORD
 
 
 	jmp EXIT
-	EXIT_DIV_ON_NULL:
+EXIT_DIV_ON_NULL:
 	push offset _DIVISION_BY_ZERO_ERROR
 	call _out
 	push -1
 	call ExitProcess
 
-	EXIT_OVERFLOW:
+EXIT_OVERFLOW:
 	push offset _OVERFLOW_ERROR
 	call _out
 	push -2
 	call ExitProcess
 
-	EXIT:
+EXIT:
 	mov		eax, _fsc
 	ret		8
 _fs ENDP
 
 main PROC
 	push		L5
-	pop			_mainx
+	pop			_scope_0x
 
 	push		L6
-	pop			_mainx
+	pop			_scope_1x
 
 	push		L7
-	push		_mainx
+	push		_scope_1x
 
 	pop		eax
 	pop		ebx
@@ -204,19 +208,44 @@ main PROC
 	push		eax
 	pop			_mainsc
 
-	push		_mainsc
-	call		_strln
-	push		eax
-	pop			_mainx
+	push		_mainx
+	push		_mainy
+	pop		ebx
+	pop		eax
+	cmp		eax, ebx
+	jna		FALSE38
+	push		L12
+	pop			_scope_2x
 
-	push		offset L12
+	push		offset L13
 	call		_out
 
-	push		_mainz
+	push		_scope_2x
 	call		_outInt
 
-	push		_mainsc
+FALSE38: 
+	push		_mainx
+	push		_mainy
+	pop		ebx
+	pop		eax
+	cmp		eax, ebx
+	jnb		FALSE47
+	jna		TRUE47
+TRUE47: 
+	push		offset L13
 	call		_out
+
+	jmp		IFOUT47
+FALSE47: 
+	push		offset L14
+	call		_out
+
+IFOUT47: 
+	push		offset L15
+	call		_out
+
+	push		_mainx
+	call		_outInt
 
 	push		_mainy
 	call		_outInt
@@ -224,20 +253,20 @@ main PROC
 
 
 	jmp EXIT
-	EXIT_DIV_ON_NULL:
+EXIT_DIV_ON_NULL:
 	push offset _DIVISION_BY_ZERO_ERROR
 	call _out
 	push -1
 	call ExitProcess
 
-	EXIT_OVERFLOW:
+EXIT_OVERFLOW:
 	push offset _OVERFLOW_ERROR
 	call _out
 	push -2
 	call ExitProcess
 
-	EXIT:
-	push		L13
+EXIT:
+	push		L16
 	call		ExitProcess
 
 main ENDP

@@ -74,7 +74,8 @@ void CG::Generation::code()
 	int indOflex = -1;
 	bool func = false;
 	bool main = false;
-	int blockOfCode = false;
+	int blockOfCode = 0;
+	int ifStatement = 0;
 	int stackRet = 0;
 	int Ifsn = 0;
 	int flagelse = 0;
@@ -105,31 +106,12 @@ void CG::Generation::code()
 			out << std::endl;
 			break;
 		}
-		case LEX_MREQUAL:
-			if (lexTable.table[i - 1].lexema == LEX_SEMICOLON) ++blockOfCode;
-			break;
 		case LEX_MAIN: {
 			main = true;
 			out << "main PROC\n";
 			break;
 		}
-		case LEX_LSEQUAL: {
-			if (func)
-			{
-				out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " ENDP\n\n";
-				func = false;
-			}
-			else if (blockOfCode > 0)
-			{
-				--blockOfCode;
-			}
-			else
-			{
-				out << "\tcall\t\tExitProcess\n\nmain ENDP\n";
-			}
-			indOfFunc = 0;
-			break;
-		}
+
 		case LEX_RETURN: {
 			end();
 			if (main) {
@@ -192,6 +174,7 @@ void CG::Generation::code()
 			indOflex = i - 1;
 			while (lexTable.table[i].lexema != LEX_SEMICOLON) {
 				if (lexTable.table[i].lexema == LEX_ID) {
+					
 					if (idTable.table[lexTable.table[i].idxTI].idtype != IT::IDTYPE::F)
 					{
 						if (!func) {
@@ -247,7 +230,7 @@ void CG::Generation::code()
 					out << "\tpush\t\teax\n";
 					out << "\n";
 				}
-				if (lexTable.table[i].lexema == LEX_DIRSLASH) 
+				if (lexTable.table[i].lexema == LEX_DIRSLASH)
 				{
 					out << "\n";
 					out << "\tpop\t\tebx\n";
@@ -260,12 +243,235 @@ void CG::Generation::code()
 					out << "\tpush\t\teax\n";
 					out << "\n";
 				}
+				if (lexTable.table[i].lexema == LEX_MORE)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tja\t\tMORE" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tjb\t\tLESS" << lexTable.table[i].sn << "\n";
+					out << "MORE" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "LESS" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
+
+				if (lexTable.table[i].lexema == LEX_LESS)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tjb\t\tLESS" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tja\t\tMORE" << lexTable.table[i].sn << "\n";
+					out << "LESS" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "MORE" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
+
+				if (lexTable.table[i].lexema == LEX_FULL_EQUALS)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tjne\t\tNOTEQUAL" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tje\t\tEQUAL" << lexTable.table[i].sn << "\n";
+					out << "EQUAL" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "NOTEQUAL" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
+
+				if (lexTable.table[i].lexema == LEX_NOT_FULL_EQUALS)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tjne\t\tNOTEQUAL" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tje\t\tEQUAL" << lexTable.table[i].sn << "\n";
+					out << "NOTEQUAL" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "EQUAL" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
+
+				if (lexTable.table[i].lexema == LEX_MORE_OR_EQUALS)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tjae\t\tMOREOREQUAL" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tjnb\t\tLESS" << lexTable.table[i].sn << "\n";
+					out << "MOREOREQUAL" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "LESS" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
+
+				if (lexTable.table[i].lexema == LEX_LESS_OR_EQUALS)
+				{
+					out << "\n";
+					out << "\tpop\t\tebx\n";
+					out << "\tpop\t\teax\n";
+					out << "\tcmp\t\teax, ebx\n";
+					out << "\tjbe\t\tLESSOREQUALS" << lexTable.table[i].sn << "\n";
+					out << "\tpush\t\t0\n";
+					out << "\tjna\t\tMORE" << lexTable.table[i].sn << "\n";
+					out << "LESSOREQUALS" << lexTable.table[i].sn << ":" << "\n";
+					out << "\tpush\t\t1\n";
+					out << "MORE" << lexTable.table[i].sn << ":";
+					out << "\n";
+				}
 				i++;
 			}
 			out << "\tpop\t\t\t" << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
 				<< idTable.table[lexTable.table[indOflex].idxTI].id << "\n\n";
 			break;
 		}
+		case LEX_IF: {
+			flagelse = 0;
+			++ifStatement;
+			operation = ' ';
+			if (lexTable.table[i + 2].lexema != LEX_LITERAL)
+				out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i+2].idxTI].scope << idTable.table[lexTable.table[i + 2].idxTI].id << "\n";
+			else
+				out << "\tpush\t\t" << idTable.table[lexTable.table[i + 2].idxTI].id << "\n";
+
+			if (lexTable.table[i + 4].lexema != LEX_LITERAL)
+				out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i+2].idxTI].scope << idTable.table[lexTable.table[i + 4].idxTI].id << "\n";
+			else
+				out << "\tpush\t\t" << idTable.table[lexTable.table[i + 4].idxTI].id << "\n";
+
+			out << "\tpop\t\tebx\n";
+			out << "\tpop\t\teax\n";
+			out << "\tcmp\t\teax, ebx\n";
+			Ifsn = lexTable.table[i].sn;
+			int j = i;
+			int countOfMrequals = 0;
+			while (lexTable.table[j].lexema != LEX_LSEQUAL || countOfMrequals != 0) {
+				if (lexTable.table[j].lexema == LEX_MREQUAL) ++countOfMrequals;
+				else if (lexTable.table[j + 1].lexema == LEX_LSEQUAL) --countOfMrequals;
+				j++;
+			}	
+			if (lexTable.table[j + 1].lexema == LEX_ELSE)
+				flagelse = 1;
+			switch (lexTable.table[i + 3].lexema) {
+
+			case LEX_FULL_EQUALS:
+			{
+				out << "\tjne\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tje\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_FULL_EQUALS;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+
+			case LEX_NOT_FULL_EQUALS:
+			{
+				out << "\tje\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tjne\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_EQUAL;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+
+			case LEX_MORE:
+			{
+				out << "\tjna\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tjnb\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_MORE;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+
+			case LEX_LESS:
+			{
+				out << "\tjnb\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tjna\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_LESS;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+
+			case LEX_MORE_OR_EQUALS:
+			{
+				out << "\tjb\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tja\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_MORE_OR_EQUALS;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+
+			case LEX_LESS_OR_EQUALS:
+			{
+				out << "\tja\t\tFALSE" << Ifsn << "\n";
+				if (flagelse == 1) {
+					out << "\tjb\t\tTRUE" << Ifsn << "\n";
+					operation = LEX_LESS_OR_EQUALS;
+					out << "TRUE" << Ifsn << ": " << "\n";
+				}
+				break;
+			}
+			default:break;
+			}
+			break;
+		}
+		case LEX_MREQUAL:
+			if (lexTable.table[i - 1].lexema == LEX_SEMICOLON || lexTable.table[i - 1].lexema == LEX_LSEQUAL)
+				++blockOfCode;
+			break;
+		case LEX_LSEQUAL: {
+			if (blockOfCode > 0)
+			{
+				--blockOfCode;
+			}
+			else if (ifStatement > 0)
+			{
+				if (flagelse == 1 && lexTable.table[i + 1].lexema == LEX_ELSE) {
+					out << "\tjmp\t\tIFOUT" << Ifsn << "\n";
+					out << "FALSE" << Ifsn << ": " << "\n";
+					++ifStatement;
+				}
+				else if (flagelse == 0 && lexTable.table[i + 1].lexema != LEX_ELSE) {
+					out << "FALSE" << Ifsn << ": " << "\n";
+				}
+				else if (flagelse == 1)
+					out << "IFOUT" << Ifsn << ": " << "\n";
+				--ifStatement;
+			}
+			else if (func)
+			{
+				out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " ENDP\n\n";
+				func = false;
+			}
+			else
+			{
+				out << "\tcall\t\tExitProcess\n\nmain ENDP\n";
+			}
+			indOfFunc = 0;
+			break;
+		}
+		
 		default:break;
 		}
 	}
@@ -274,7 +480,7 @@ void CG::Generation::code()
 
 void CG::Generation::end()
 {
-	out << "\n\n\tjmp EXIT\n\tEXIT_DIV_ON_NULL:\n\tpush offset _DIVISION_BY_ZERO_ERROR\n\tcall _out\n\tpush -1\n\tcall ExitProcess";
-	out << "\n\n\tEXIT_OVERFLOW:\n\tpush offset _OVERFLOW_ERROR\n\tcall _out\n\tpush -2\n\tcall ExitProcess";
-	out << "\n\n\tEXIT:\n";
+	out << "\n\n\tjmp EXIT\nEXIT_DIV_ON_NULL:\n\tpush offset _DIVISION_BY_ZERO_ERROR\n\tcall _out\n\tpush -1\n\tcall ExitProcess";
+	out << "\n\nEXIT_OVERFLOW:\n\tpush offset _OVERFLOW_ERROR\n\tcall _out\n\tpush -2\n\tcall ExitProcess";
+	out << "\n\nEXIT:\n";
 }

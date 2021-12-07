@@ -35,10 +35,25 @@ main
  sb = '1234567890'; 
  z = fi(x,y); 
  sc = fs(sa,sb); 
- x = strln(sc);
+ if (x > y) 
+ {
+  declare uint x;
+  x = 1;
+  {
+   output 'x > y';
+   output x;
+  }
+ }
+ if (x < y)
+ {
+  output 'x > y';
+ }
+ else 
+ {
+  output 'неправда';
+ }
  output 'контрольный пример'; 
- output z; 
- output sc; 
+ output x;
  output y;
  return 0; 
 };

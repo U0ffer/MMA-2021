@@ -160,7 +160,31 @@ namespace GRB
 			Rule::Chain(2, TS('/'), NS('E')),
 			Rule::Chain(4, TS('/'), TS('('), NS('E'), TS(')')),
 			Rule::Chain(5, TS('/'), TS('('), NS('E'), TS(')'), NS('M')),
-			Rule::Chain(3, TS('/'), NS('E'), NS('M'))
+			Rule::Chain(3, TS('/'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('$'), NS('E')),
+			Rule::Chain(4, TS('$'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('$'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('$'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('#'), NS('E')),
+			Rule::Chain(4, TS('#'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('#'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('#'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('<'), NS('E')),
+			Rule::Chain(4, TS('<'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('<'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('<'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('>'), NS('E')),
+			Rule::Chain(4, TS('>'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('>'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('>'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('~'), NS('E')),
+			Rule::Chain(4, TS('~'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('~'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('~'), NS('E'), NS('M')),
+			Rule::Chain(2, TS('&'), NS('E')),
+			Rule::Chain(4, TS('&'), TS('('), NS('E'), TS(')')),
+			Rule::Chain(5, TS('&'), TS('('), NS('E'), TS(')'), NS('M')),
+			Rule::Chain(3, TS('&'), NS('E'), NS('M'))
 		)
 	);
 #pragma endregion

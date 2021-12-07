@@ -107,6 +107,9 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						word = "-" + word;
 						--lextable.size;
 					}
+					if (word[word.length() - 1] == 'o') {
+						word = std::to_string(std::stoi(word, 0, 8));
+					}
 					if (std::stoi(word) > INT_MAX || std::stoi(word) < INT_MIN)
 						throw ERROR_THROW_IN(131, line, -1);
 					ti_idx = IT::isLit(idtable, word, ti_scope.back());

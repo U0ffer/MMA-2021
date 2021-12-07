@@ -8,7 +8,7 @@
 #define REG_PRINT "output"
 #define REG_MAIN "main"
 #define REG_ID "[a-z]+"
-#define REG_INTEGER_LIT "[0-9]+"
+#define REG_INTEGER_LIT "(0|([1-9]+[0-9]*))o?"
 #define REG_STRING_LIT "'(.)*'"
 #define REG_SEMICOLON ";"
 #define REG_EQUAL "="

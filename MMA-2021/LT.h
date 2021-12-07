@@ -27,6 +27,8 @@
 #define LEX_STAR		'*'
 #define LEX_DIRSLASH	'/'
 #define LEX_EQUAL		'='
+#define LEX_IF			'e'
+#define LEX_ELSE		'y'
 #define LEX_COMMERCIAL_AT '@'
 
 namespace LT {

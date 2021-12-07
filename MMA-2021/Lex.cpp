@@ -6,17 +6,17 @@
 #include "Log.h"
 
 char Lex::GetToken(std::string str) {
-	std::array<std::string, 21> regexps = {
+	std::array<std::string, 23> regexps = {
 		REG_DECLARE, REG_STRING, REG_INTEGER, REG_FUNCTION, REG_RETURN, REG_PRINT,
 		REG_MAIN, REG_INTEGER_LIT, REG_STRING_LIT, REG_SEMICOLON, REG_COMMA,
 		REG_MREQUAL, REG_LSEQUAL, REG_LEFTTHESIS, REG_RIGHTTHESIS, REG_PLUS, REG_MINUS,
-		REG_STAR, REG_DIRSLASH, REG_EQUAL, REG_ID
+		REG_STAR, REG_DIRSLASH, REG_EQUAL,REG_IF, REG_ELSE, REG_ID
 	};
-	std::array<char, 21> tokens = {
+	std::array<char, 23> tokens = {
 		LEX_DECLARE, LEX_STRING, LEX_INTEGER, LEX_FUNCTION, LEX_RETURN, LEX_PRINT,
 		LEX_MAIN, LEX_INTEGER_LIT, LEX_STRING_LIT, LEX_SEMICOLON, LEX_COMMA,
 		LEX_MREQUAL, LEX_LSEQUAL, LEX_LEFTTHESIS, LEX_RIGHTTHESIS, LEX_PLUS, LEX_MINUS,
-		LEX_STAR, LEX_DIRSLASH, LEX_EQUAL, LEX_ID
+		LEX_STAR, LEX_DIRSLASH, LEX_EQUAL, LEX_IF, LEX_ELSE, LEX_ID
 	};
 	for (int i = 0; i < sizeof(regexps) / sizeof(regexps[0]); ++i) {
 		if (std::regex_match(str, std::regex(regexps[i]))) {
@@ -60,7 +60,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					isMain == 0 ? ++isMain : throw ERROR_THROW(128);
 					break;
 				case LEX_ID:
-					if (lextable.size >= 2 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE)
+					if (lextable.size >= 3 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE && lextable.table[lextable.size - 3].lexema != LEX_DECLARE)
 						ti_idx = IT::IsId(idtable, word, ti_scope);
 					if (ti_idx == TI_NULLIDX)
 					{

@@ -21,3 +21,5 @@
 #define REG_MINUS "\\-"
 #define REG_STAR "\\*"
 #define REG_DIRSLASH "/"
+#define REG_IF "if"
+#define REG_ELSE "else"

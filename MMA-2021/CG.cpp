@@ -171,22 +171,19 @@ void CG::Generation::code()
 			break;
 		}
 		case LEX_EQUAL: {
-			indOflex = i - 1;
+			indOflex = i - 1;	
 			while (lexTable.table[i].lexema != LEX_SEMICOLON) {
-				if (lexTable.table[i].lexema == LEX_ID) {
-					
+				if (lexTable.table[i].lexema == LEX_ID) {	
 					if (idTable.table[lexTable.table[i].idxTI].idtype != IT::IDTYPE::F)
 					{
-						if (!func) {
-							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].scope
-								<< idTable.table[lexTable.table[i].idxTI].id << "\n";
-						}
-						else {
+						if (idTable.table[lexTable.table[i].idxTI].idtype == IT::IDTYPE::P)
+						{
 							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].id << "\n";
 						}
+						else
+							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].scope
+								<< idTable.table[lexTable.table[i].idxTI].id << "\n";
 					}
-
-
 				}
 				if (lexTable.table[i].lexema == LEX_LITERAL) {
 					if (idTable.table[lexTable.table[i].idxTI].iddatatype == IT::IDDATATYPE::UINT)
@@ -462,13 +459,14 @@ void CG::Generation::code()
 			else if (func)
 			{
 				out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " ENDP\n\n";
-				func = false;
+				func = false; 
+				indOfFunc = 0;
 			}
 			else
 			{
 				out << "\tcall\t\tExitProcess\n\nmain ENDP\n";
 			}
-			indOfFunc = 0;
+			
 			break;
 		}
 		

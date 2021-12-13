@@ -1,7 +1,8 @@
 ﻿#include <iostream>
+#include <cstdlib>
 
 extern "C" {
-	unsigned long _stdcall _compare(char* str1, char* str2) {
+	unsigned long _stdcall _compare(	char* str1, char* str2) {
 		if (str1 == NULL || str2 == NULL || strlen(str1) != strlen(str2))
 			return (unsigned long)3;
 		else

@@ -125,7 +125,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					token = LEX_LITERAL;
 					break;
 				case LEX_INTEGER_LIT:
-					if (lextable.size >= 2 && lextable.table[lextable.size - 1].lexema == LEX_MINUS && lextable.table[lextable.size - 1].lexema != LEX_ID)
+					if (lextable.size >= 2 && lextable.table[lextable.size - 1].lexema == LEX_MINUS && lextable.table[lextable.size -2].idxTI == -1 )
 					{
 						word = "-" + word;
 						--lextable.size;

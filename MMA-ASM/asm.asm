@@ -26,21 +26,20 @@ _outInt PROTO : DWORD
 	L9 BYTE 'jjhgjgjhjhg', 0
 	L10 BYTE 'контрольный пример', 0
 	L11 BYTE 'test string', 0
-	L12 DWORD 5
-	L13 DWORD 6
-	L14 DWORD 5
-	L15 DWORD 50
-	L16 DWORD 100
-	L17 DWORD 6
-	L18 DWORD 1601
+	L12 DWORD 6
+	L13 DWORD 5
+	L14 DWORD 50
+	L15 DWORD 100
+	L16 DWORD 6
+	L17 DWORD 1601
+	L18 DWORD 5
 	L19 DWORD 5
-	L20 DWORD 5
-	L21 BYTE '1234567890', 0
-	L22 DWORD 1
-	L23 BYTE 'x > y', 0
-	L24 BYTE 'неправда', 0
-	L25 DWORD 999999
-	L26 DWORD 0
+	L20 BYTE '1234567890', 0
+	L21 DWORD 1
+	L22 BYTE 'x > y', 0
+	L23 BYTE 'неправда', 0
+	L24 DWORD 999999
+	L25 DWORD 0
 .data
 	_fiz		DWORD 0 ; int
 	_fia		DWORD 0 ; int
@@ -208,16 +207,13 @@ _fs ENDP
 
 _fq PROC _fqa: DWORD
 	push		L12
-	pop			_fqa
-
-	push		L13
 	pop			_fqx
 
 	push		_fqx
 	call		_outInt
 
 	push		_fqa
-	push		L14
+	push		L13
 
 	pop		ebx
 	pop		eax
@@ -248,13 +244,13 @@ EXIT:
 _fq ENDP
 
 main PROC
-	push		L15
+	push		L14
 	pop			_scope_1x
 
-	push		L16
+	push		L15
 	pop			_scope_2x
 
-	push		L17
+	push		L16
 	push		_scope_2x
 
 	pop		eax
@@ -268,11 +264,11 @@ main PROC
 	push		_mainz
 	call		_outInt
 
-	push		L18
+	push		L17
 	pop			_mainx
 
+	push		L18
 	push		L19
-	push		L20
 
 	pop		ebx
 	pop		eax
@@ -282,10 +278,10 @@ main PROC
 
 	pop			_mainy
 
-	push		offset L21
+	push		offset L20
 	pop			_mainsa
 
-	push		offset L21
+	push		offset L20
 	pop			_mainsb
 
 	push		_mainx
@@ -305,34 +301,34 @@ main PROC
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jna		FALSE57
-	push		L22
+	jna		FALSE56
+	push		L21
 	pop			_scope_3x
 
-	push		offset L23
+	push		offset L22
 	call		_out
 
 	push		_scope_3x
 	call		_outInt
 
-FALSE57: 
+FALSE56: 
 	push		_mainx
 	push		_mainy
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jnb		FALSE66
-	jna		TRUE66
-TRUE66: 
+	jnb		FALSE65
+	jna		TRUE65
+TRUE65: 
+	push		offset L22
+	call		_out
+
+	jmp		IFOUT65
+FALSE65: 
 	push		offset L23
 	call		_out
 
-	jmp		IFOUT66
-FALSE66: 
-	push		offset L24
-	call		_out
-
-IFOUT66: 
+IFOUT65: 
 	push		offset L10
 	call		_out
 
@@ -342,7 +338,7 @@ IFOUT66:
 	push		_mainy
 	call		_outInt
 
-	push		L25
+	push		L24
 	call		_fq
 	push		eax
 	pop			_mainx
@@ -363,7 +359,7 @@ EXIT_OVERFLOW:
 	call ExitProcess
 
 EXIT:
-	push		L26
+	push		L25
 	call		ExitProcess
 
 main ENDP

@@ -42,11 +42,12 @@ int main(int argc, char* argv[])
 		Log::WriteLine(log, "------ Таблица лексем после польской нотации ------", "");
 		LT::ShowTable(lexTable, log.stream);
 		CG::Generation writeToOut = CG::Generation(lexTable, idTable, parm.out);
-		CG::Generation writeToASM = CG::Generation(lexTable, idTable, "../MMA-ASM/asm.asm");
+		CG::Generation writeToASM = CG::Generation(lexTable, idTable, "asm.asm");
 		writeToOut.start();
 		writeToASM.start();
 		Log::WriteLine(log, "------ Генерация кода выполнен без ошибок ------", "");
 		Log::Close(log);
+		system("compile.bat");
 	}
 	catch (Error::ERROR err)
 	{

@@ -96,7 +96,7 @@ void CG::Generation::code()
 				if (lexTable.table[i].lexema == LEX_ID)
 				{
 					stackRet += 4;
-					out << '_' << idTable.table[lexTable.table[i].idxTI].id << ": DWORD";
+					out << '_' << idTable.table[lexTable.table[i].idxTI].scope <<idTable.table[lexTable.table[i].idxTI].id << ": DWORD";
 					if (lexTable.table[i - 2].lexema != LEX_LEFTTHESIS)
 						out << ", ";
 				}
@@ -176,11 +176,6 @@ void CG::Generation::code()
 				if (lexTable.table[i].lexema == LEX_ID) {	
 					if (idTable.table[lexTable.table[i].idxTI].idtype != IT::IDTYPE::F)
 					{
-						if (idTable.table[lexTable.table[i].idxTI].idtype == IT::IDTYPE::P)
-						{
-							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].id << "\n";
-						}
-						else
 							out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i].idxTI].scope
 								<< idTable.table[lexTable.table[i].idxTI].id << "\n";
 					}

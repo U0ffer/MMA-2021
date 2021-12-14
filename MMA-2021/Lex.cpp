@@ -65,6 +65,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					if (lextable.size >= 3 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE && lextable.table[lextable.size - 3].lexema != LEX_DECLARE) {		
 						ti_idx = IT::IsId(idtable, word, ti_scope);
 					}
+					
 					if (ti_idx == TI_NULLIDX)
 					{
 						if (lextable.size >= 1 && lextable.table[lextable.size - 1].lexema == LEX_FUNCTION)

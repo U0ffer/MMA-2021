@@ -22,6 +22,7 @@ string function fs (string a, string b)
 }; 
 uint function fq(uint a) 
 {
+	a = 5;
 	declare uint x;
 	x = 6;
 	output x;

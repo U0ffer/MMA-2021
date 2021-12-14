@@ -53,7 +53,8 @@ namespace Log
 		*log.stream << "------ Параметры ------\n" <<
 			PARM_IN << parm.in << "\n" <<
 			PARM_OUT << parm.out << "\n" <<
-			PARM_LOG << parm.log << "\n" << "\n";
+			PARM_LOG << parm.log << "\n" << 
+			PARM_MFST << parm.mfst << "\n" << "\n";
 	}
 
 	void WriteIn(LOG log, In::IN in) {

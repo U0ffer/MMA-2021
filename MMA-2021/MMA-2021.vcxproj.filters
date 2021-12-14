@@ -109,10 +109,10 @@
     <Text Include="log.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="out.txt">
+    <Text Include="mfst.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="mfst.txt">
+    <Text Include="out.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

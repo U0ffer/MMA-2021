@@ -4,13 +4,14 @@
 #define TI_MAXSIZE		4096		
 #define TI_INT_DEFAULT	0x00000000	
 #define TI_STR_DEFAULT	0x00		
+#define TI_BOOL_DEFAULT 0
 #define TI_NULLIDX		0xffffffff	
 #define TI_STR_MAXSIZE	255			 
 #define TI_SCOPE_DEFAULT "global"
 
 namespace IT
 {
-	enum class IDDATATYPE { UINT = 1, STR = 2 };
+	enum class IDDATATYPE { UINT = 1, STR = 2, BOOL = 3 };
 	enum class IDTYPE { V = 1, F = 2, P = 3, L = 4 };
 
 	struct Entry
@@ -28,10 +29,12 @@ namespace IT
 				char str[TI_STR_MAXSIZE - 1];
 				int len;
 			} vstr;
+			bool vbool;
 		} value;
 		Entry() = default;
 		Entry(int idxfirstLE, std::string id, std::string scope, IDTYPE idtype, int value);
 		Entry(int idxfirstLE, std::string id, std::string scope, IDTYPE idtype, const char* value);
+		Entry(int idxfirstLE, std::string id, std::string scope, IDTYPE idtype, bool value);
 		Entry(int idxfirstLE, std::string id, std::string scope, IDDATATYPE iddatatype, IDTYPE idtype);
 	};
 

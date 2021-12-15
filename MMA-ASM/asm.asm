@@ -18,43 +18,39 @@ _outInt PROTO : DWORD
 	L1 DWORD 45
 	L2 DWORD 234
 	L3 DWORD 34
-	L4 DWORD 45
-	L5 DWORD 3
-	L6 DWORD 2
-	L7 DWORD 10
-	L8 DWORD 5
-	L9 BYTE 'jjhgjgjhjhg', 0
-	L10 BYTE 'контрольный пример', 0
-	L11 BYTE 'test string', 0
-	L12 DWORD 6
-	L13 DWORD 5
-	L14 DWORD 50
-	L15 DWORD 100
-	L16 DWORD 6
-	L17 DWORD 1601
-	L18 DWORD 5
-	L19 DWORD 5
-	L20 BYTE '1234567890', 0
-	L21 DWORD 1
-	L22 BYTE 'x > y', 0
-	L23 BYTE 'неправда', 0
-	L24 DWORD 999999
-	L25 DWORD 0
+	L4 DWORD 3
+	L5 DWORD 2
+	L6 DWORD 10
+	L7 DWORD 5
+	L8 BYTE 'jjhgjgjhjhg', 0
+	L9 BYTE 'контрольный пример', 0
+	L10 BYTE 'test string', 0
+	L11 DWORD 6
+	L12 BYTE 255
+	L13 DWORD 50
+	L14 DWORD 100
+	L15 DWORD 1601
+	L16 BYTE '1234567890', 0
+	L17 BYTE 'x > y', 0
+	L18 BYTE 'неправда', 0
+	L19 DWORD 999999
+	L20 DWORD 0
 .data
-	_fiz		DWORD 0 ; int
-	_fia		DWORD 0 ; int
-	_fib		DWORD 0 ; int
-	_fsc		DWORD 0 ; str
-	_fqx		DWORD 0 ; int
-	_mainx		DWORD 0 ; int
-	_mainy		DWORD 0 ; int
-	_mainz		DWORD 0 ; int
-	_scope_1x		DWORD 0 ; int
-	_scope_2x		DWORD 0 ; int
-	_mainsa		DWORD 0 ; str
-	_mainsb		DWORD 0 ; str
-	_mainsc		DWORD 0 ; str
-	_scope_3x		DWORD 0 ; int
+	_fiz		DWORD 0 ; uint
+	_fia		DWORD 0 ; uint
+	_fib		DWORD 0 ; uint
+	_fsc		DWORD ? ; str
+	_fqx		DWORD 0 ; uint
+	_mainx		DWORD 0 ; uint
+	_mainy		DWORD 0 ; uint
+	_maintest		BYTE 0 ; bool
+	_mainz		DWORD 0 ; uint
+	_scope_1x		DWORD 0 ; uint
+	_scope_2x		DWORD 0 ; uint
+	_mainsa		DWORD ? ; str
+	_mainsb		DWORD ? ; str
+	_mainsc		DWORD ? ; str
+	_scope_3x		DWORD 0 ; uint
 
 .code
 _fi PROC _fiy: DWORD, _fix: DWORD
@@ -122,7 +118,7 @@ _fi PROC _fiy: DWORD, _fix: DWORD
 	jo		EXIT_OVERFLOW
 	push		eax
 
-	push		L4
+	push		L1
 
 	pop		ebx
 	pop		eax
@@ -142,23 +138,23 @@ _fi PROC _fiy: DWORD, _fix: DWORD
 
 	pop			_fiz
 
-	push		L5
+	push		L4
 	pop			_fia
 
-	push		L6
+	push		L5
 	pop			_fib
 
+	push		L6
 	push		L7
-	push		L8
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
 	jna		FALSE10
-	push		offset L9
+	push		offset L8
 	call		_out
 
 FALSE10: 
-	push		offset L10
+	push		offset L9
 	call		_out
 
 
@@ -182,7 +178,7 @@ EXIT:
 _fi ENDP
 
 _fs PROC _fsb: DWORD, _fsa: DWORD
-	push		offset L11
+	push		offset L10
 	pop			_fsc
 
 
@@ -206,14 +202,14 @@ EXIT:
 _fs ENDP
 
 _fq PROC _fqa: DWORD
-	push		L12
+	push		L11
 	pop			_fqx
 
 	push		_fqx
 	call		_outInt
 
 	push		_fqa
-	push		L13
+	push		L7
 
 	pop		ebx
 	pop		eax
@@ -244,13 +240,16 @@ EXIT:
 _fq ENDP
 
 main PROC
-	push		L14
+	push		offset L12
+	pop			dword ptr _maintest
+
+	push		L13
 	pop			_scope_1x
 
-	push		L15
+	push		L14
 	pop			_scope_2x
 
-	push		L16
+	push		L11
 	push		_scope_2x
 
 	pop		eax
@@ -264,11 +263,11 @@ main PROC
 	push		_mainz
 	call		_outInt
 
-	push		L17
+	push		L15
 	pop			_mainx
 
-	push		L18
-	push		L19
+	push		L7
+	push		L7
 
 	pop		ebx
 	pop		eax
@@ -278,10 +277,10 @@ main PROC
 
 	pop			_mainy
 
-	push		offset L20
+	push		offset L16
 	pop			_mainsa
 
-	push		offset L20
+	push		offset L16
 	pop			_mainsb
 
 	push		_mainx
@@ -301,35 +300,35 @@ main PROC
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jna		FALSE56
-	push		L21
+	jna		FALSE57
+	push		offset L12
 	pop			_scope_3x
 
-	push		offset L22
+	push		offset L17
 	call		_out
 
 	push		_scope_3x
 	call		_outInt
 
-FALSE56: 
+FALSE57: 
 	push		_mainx
 	push		_mainy
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jnb		FALSE65
-	jna		TRUE65
-TRUE65: 
-	push		offset L22
+	jnb		FALSE66
+	jna		TRUE66
+TRUE66: 
+	push		offset L17
 	call		_out
 
-	jmp		IFOUT65
-FALSE65: 
-	push		offset L23
+	jmp		IFOUT66
+FALSE66: 
+	push		offset L18
 	call		_out
 
-IFOUT65: 
-	push		offset L10
+IFOUT66: 
+	push		offset L9
 	call		_out
 
 	push		_mainx
@@ -338,7 +337,7 @@ IFOUT65:
 	push		_mainy
 	call		_outInt
 
-	push		L24
+	push		L19
 	call		_fq
 	push		eax
 	pop			_mainx
@@ -359,7 +358,7 @@ EXIT_OVERFLOW:
 	call ExitProcess
 
 EXIT:
-	push		L25
+	push		L20
 	call		ExitProcess
 
 main ENDP

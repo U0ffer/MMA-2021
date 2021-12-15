@@ -33,6 +33,7 @@ main
 { 
  declare uint x; 
  declare uint y; 
+ declare bool test = true;
  declare uint z; 
  {
   declare uint x;

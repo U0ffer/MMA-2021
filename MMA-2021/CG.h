@@ -14,10 +14,27 @@ namespace CG
 		void start();
 
 	private:
+		bool isMain;
+		bool isFunc;
+		int stackRet;
+		int indOflex;
+		int ifStatement;
+		int flagelse;
+		int indOfFunc;
+		int Ifsn;
+		int blockOfCode;
+
 		void head();
 		void constants();
 		void data();
 		void code();
-		void end();
+
+		void generateFunctionProto(int &i);
+		void generateFunctioinBody(int& i);
+		void generateFunctionReturn(int &i);
+
+		void generatePrint(int& i);
+		void generateEqual(int& i);
+		void generateIfStatement(int& i);
 	};
 }

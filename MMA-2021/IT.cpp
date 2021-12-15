@@ -17,14 +17,25 @@ namespace IT
 		strcpy_s(this->value.vstr.str, value);
 	}
 
+	IT::Entry::Entry(int idxfirstLE, std::string id, std::string scope, IDTYPE idtype, bool value)
+		: idxfirstLE(idxfirstLE), iddatatype(IDDATATYPE::BOOL), idtype(idtype), id(id), scope(scope)
+	{
+		this->value.vbool = value;
+	}
+
 	IT::Entry::Entry(int idxfirstLE, std::string id, std::string scope, IDDATATYPE iddatatype, IDTYPE idtype)
 		: idxfirstLE(idxfirstLE), iddatatype(iddatatype), idtype(idtype), id(id), scope(scope)
 	{
 		if (this->iddatatype == IDDATATYPE::UINT) {
 			value.vint = TI_INT_DEFAULT;
 		}
+		else if (this->iddatatype == IDDATATYPE::BOOL)
+		{
+			value.vbool = (bool)TI_BOOL_DEFAULT;
+		}
 		else {
 			value.vstr.len = TI_STR_DEFAULT;
+			strcpy_s(this->value.vstr.str, "");
 		}
 	}
 
@@ -99,6 +110,8 @@ namespace IT
 				*stream << "int ";
 			else if (idtable.table[i].iddatatype == IDDATATYPE::STR)
 				*stream << "str ";
+			else if (idtable.table[i].iddatatype == IDDATATYPE::BOOL)
+				*stream << "bool ";
 
 			*stream << std::setw(10);
 			if (idtable.table[i].idtype == IDTYPE::F)

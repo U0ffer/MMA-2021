@@ -6,10 +6,12 @@
 #define LT_TI_NULLIDX	0xfffffff	
 #define LEX_INTEGER		'n'	
 #define LEX_STRING		's'
+#define LEX_BOOL		'q'
 #define LEX_DATATYPE	't'
 #define LEX_ID			'i'	
 #define LEX_INTEGER_LIT	'2'
 #define LEX_STRING_LIT	'3'
+#define LEX_BOOL_LIT	'4'
 #define LEX_LITERAL		'l'
 #define LEX_FUNCTION	'f'	
 #define LEX_DECLARE		'd'	

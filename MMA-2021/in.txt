@@ -31,6 +31,9 @@ uint function fq(uint a)
 declare uint function strln(string p); 
 main 
 { 
+ declare uint nmm;
+ nmm = 10 % 50;
+ output nmm;
  declare uint x; 
  declare uint y; 
  declare bool test = true;

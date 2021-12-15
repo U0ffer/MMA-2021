@@ -23,6 +23,7 @@
 #define REG_MINUS "\\-"
 #define REG_STAR "\\*"
 #define REG_DIRSLASH "/"
+#define REG_REM_AFTER_DIVIDING "%"
 #define REG_IF "if"
 #define REG_ELSE "else"
 #define REG_MORE ">"

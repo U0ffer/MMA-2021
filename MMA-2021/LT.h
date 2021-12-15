@@ -38,6 +38,7 @@
 #define LEX_IF			'e'
 #define LEX_ELSE		'y'
 #define LEX_COMMERCIAL_AT '@'
+#define LEX_REM_AFTER_DIVIDING '%'
 
 namespace LT {
 	struct Entry {

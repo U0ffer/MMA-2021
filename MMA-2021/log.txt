@@ -1,5 +1,5 @@
 ------ Протокол ------
-Дата: 15.12.2021 17:21:00  
+Дата: 15.12.2021 19:14:41  
 
 ------ Параметры ------
 -in:in.txt
@@ -8,9 +8,9 @@
 -mfst:mfst.txt
 
 ------ Исходные данные ------
-Количество символов: 946
-Проигнорировано: 77
-Количество строк: 80
+Количество символов: 992
+Проигнорировано: 78
+Количество строк: 83
 
 ------ Синтаксический анализ выполнен без ошибок ------
 ------ Семантический анализ выполнен без ошибок ------
@@ -46,25 +46,26 @@ index      name      type        id type     scope      lexTable index
    25     strln      int         f          global            136
    26         p      str         p           strln            139
    27      main      int         f          global            143
-   28         x      int         v            main            146
-   29         y      int         v            main            150
-   30      test     bool         v            main            154
-   31       L12     bool         l            main            156
-   32         z      int         v            main            160
-   33         x      int         v         scope_1            165
-   34       L13      int         l         scope_1            169
-   35         x      int         v         scope_2            174
-   36       L14      int         l         scope_2            178
-   37        sa      str         v            main            193
-   38        sb      str         v            main            197
-   39        sc      str         v            main            201
-   40       L15      int         l            main            205
-   41       L16      str         l            main            215
-   42         x      int         v         scope_3            248
-   43       L17      str         l         scope_4            256
-   44       L18      str         l         scope_6            277
-   45       L19      int         l            main            293
-   46       L20      int         l            main            297
+   28       nmm      int         v            main            146
+   29       L12      int         l            main            152
+   30         x      int         v            main            159
+   31         y      int         v            main            163
+   32      test     bool         v            main            167
+   33       L13     bool         l            main            169
+   34         z      int         v            main            173
+   35         x      int         v         scope_1            178
+   36         x      int         v         scope_2            187
+   37       L14      int         l         scope_2            191
+   38        sa      str         v            main            206
+   39        sb      str         v            main            210
+   40        sc      str         v            main            214
+   41       L15      int         l            main            218
+   42       L16      str         l            main            228
+   43         x      int         v         scope_3            261
+   44       L17      str         l         scope_4            269
+   45       L18      str         l         scope_6            290
+   46       L19      int         l            main            306
+   47       L20      int         l            main            310
 
 ------ Таблица лексем ------
 tfi<0>(ti<1>,ti<2>){dti<3>;
@@ -87,33 +88,36 @@ i<23>=i<22>l<13>-;
 ri<22>;
 }dtfi<25>(ti<26>);
 m{dti<28>;
-dti<29>;
-dti<30>=l<31>;
-dti<32>;
-{dti<33>;
-i<33>=l<34>;
-{dti<35>;
-i<35>=l<36>;
-i<32>=l<24>i<35>+;
-}pi<32>;
-}dti<37>;
-dti<38>;
-dti<39>;
-i<28>=l<40>;
-i<29>=l<13>l<13>*;
-i<37>=l<41>;
-i<38>=l<41>;
-i<32>=i<28>i<29>@<0>2;
-i<39>=i<37>i<38>@<16>2;
-e(i<28>>i<29>){dti<42>;
-i<42>=l<31>;
-{pl<43>;
-pi<42>;
-}}e(i<28><i<29>){pl<43>;
-}y{pl<44>;
-}pl<15>;
+i<28>=l<12>l<29>%;
 pi<28>;
-pi<29>;
-i<28>=l<45>@<21>1;
-rl<46>;
+dti<30>;
+dti<31>;
+dti<32>=l<33>;
+dti<34>;
+{dti<35>;
+i<35>=l<29>;
+{dti<36>;
+i<36>=l<37>;
+i<34>=l<24>i<36>+;
+}pi<34>;
+}dti<38>;
+dti<39>;
+dti<40>;
+i<30>=l<41>;
+i<31>=l<13>l<13>*;
+i<38>=l<42>;
+i<39>=l<42>;
+i<34>=i<30>i<31>@<0>2;
+i<40>=i<38>i<39>@<16>2;
+e(i<30>>i<31>){dti<43>;
+i<43>=l<33>;
+{pl<44>;
+pi<43>;
+}}e(i<30><i<31>){pl<44>;
+}y{pl<45>;
+}pl<15>;
+pi<30>;
+pi<31>;
+i<30>=l<46>@<21>1;
+rl<47>;
 }

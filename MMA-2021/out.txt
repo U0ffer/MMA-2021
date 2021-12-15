@@ -26,8 +26,8 @@ _outInt PROTO : DWORD
 	L9 BYTE 'контрольный пример', 0
 	L10 BYTE 'test string', 0
 	L11 DWORD 6
-	L12 BYTE 255
-	L13 DWORD 50
+	L12 DWORD 50
+	L13 BYTE 255
 	L14 DWORD 100
 	L15 DWORD 1601
 	L16 BYTE '1234567890', 0
@@ -41,6 +41,7 @@ _outInt PROTO : DWORD
 	_fib		DWORD 0 ; uint
 	_fsc		DWORD ? ; str
 	_fqx		DWORD 0 ; uint
+	_mainnmm		DWORD 0 ; uint
 	_mainx		DWORD 0 ; uint
 	_mainy		DWORD 0 ; uint
 	_maintest		BYTE 0 ; bool
@@ -240,10 +241,27 @@ EXIT:
 _fq ENDP
 
 main PROC
-	push		offset L12
+	push		L6
+	push		L12
+
+	pop		ebx
+	pop		eax
+	test		ebx, ebx
+	jz		EXIT_DIV_ON_NULL
+	cdq
+	idiv		ebx
+	jo		EXIT_OVERFLOW
+	push		edx
+
+	pop			_mainnmm
+
+	push		_mainnmm
+	call		_outInt
+
+	push		offset L13
 	pop			dword ptr _maintest
 
-	push		L13
+	push		L12
 	pop			_scope_1x
 
 	push		L14
@@ -300,8 +318,8 @@ main PROC
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jna		FALSE57
-	push		offset L12
+	jna		FALSE60
+	push		offset L13
 	pop			_scope_3x
 
 	push		offset L17
@@ -310,24 +328,24 @@ main PROC
 	push		_scope_3x
 	call		_outInt
 
-FALSE57: 
+FALSE60: 
 	push		_mainx
 	push		_mainy
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jnb		FALSE66
-	jna		TRUE66
-TRUE66: 
+	jnb		FALSE69
+	jna		TRUE69
+TRUE69: 
 	push		offset L17
 	call		_out
 
-	jmp		IFOUT66
-FALSE66: 
+	jmp		IFOUT69
+FALSE69: 
 	push		offset L18
 	call		_out
 
-IFOUT66: 
+IFOUT69: 
 	push		offset L9
 	call		_out
 

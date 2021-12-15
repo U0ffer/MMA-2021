@@ -181,7 +181,7 @@ namespace MFST
 
 
 		}
-		if (!rc) throw ERROR_THROW(606);
+		if (!rc) throw ERROR_THROW(613);
 	};
 
 	char* Mfst::getCSt(char* buf)

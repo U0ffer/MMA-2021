@@ -83,7 +83,7 @@ void CG::Generation::code()
 	for (int i = 0; i < lexTable.size; i++) {
 		switch (lexTable.table[i].lexema) {
 		case LEX_FUNCTION: {
-			if (func || main)
+			if (lexTable.table[i - 2].lexema == LEX_DECLARE)
 				break;
 			indOfFunc = i + 1;
 			out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " PROC ";

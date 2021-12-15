@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 			writeToASM.start();
 		#endif 
 		#ifndef _DEBUG
-			system("compile.bat");
+			system("start compile.bat");
 		#endif
 		Log::Close(log);
 	}

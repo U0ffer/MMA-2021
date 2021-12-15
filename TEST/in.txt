@@ -13,13 +13,13 @@ uint function fi(uint x, uint y)
  }
  output 'контрольный пример'; 
  return z; 
-};
+}
 string function fs (string a, string b) 
 { 
  declare string c; 
  c = 'test string';
  return c; 
-}; 
+}
 uint function fq(uint a) 
 {
 	declare uint x;
@@ -27,11 +27,16 @@ uint function fq(uint a)
 	output x;
 	x = a -5;
 	return a;
-};
+}
+declare uint function strln(string p); 
 main 
 { 
+ declare uint nmm;
+ nmm = 10 % 50;
+ output nmm;
  declare uint x; 
  declare uint y; 
+ declare bool test = true;
  declare uint z; 
  {
   declare uint x;
@@ -46,7 +51,7 @@ main
  declare string sa; 
  declare string sb; 
  declare string sc; 
- declare uint function strln(string p); 
+
  x = 3101o; 
  y = 5 * 5; 
  sa = '1234567890'; 
@@ -75,4 +80,4 @@ main
  output y;
  x = fq(999999);
  return 0; 
-};
+}

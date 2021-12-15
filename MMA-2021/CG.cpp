@@ -24,7 +24,12 @@ void CG::Generation::head()
 	out << ".model flat, stdcall\n";
 	out << "includelib libucrt.lib\n";
 	out << "includelib kernel32.lib\n";
-	out << "includelib ../Debug/MMA_Lib.lib\n";
+	#ifdef _DEBUG
+		out << "includelib ../Debug/MMA_Lib.lib\n";
+	#endif
+	#ifndef _DEBUG
+			out << "includelib MMA_Lib.lib\n";
+	#endif
 	out << "ExitProcess PROTO : DWORD\n";
 	out << "_compare PROTO : DWORD, :DWORD\n";
 	out << "_strln PROTO : DWORD\n";

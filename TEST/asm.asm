@@ -2,7 +2,7 @@
 .model flat, stdcall
 includelib libucrt.lib
 includelib kernel32.lib
-includelib ../Debug/MMA_Lib.lib
+includelib MMA_Lib.lib
 ExitProcess PROTO : DWORD
 _compare PROTO : DWORD, :DWORD
 _strln PROTO : DWORD

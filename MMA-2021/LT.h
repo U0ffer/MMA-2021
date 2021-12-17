@@ -30,6 +30,7 @@
 #define LEX_DIRSLASH	'/'
 #define LEX_EQUAL		'='
 #define LEX_MORE		'>'
+#define LEX_EXCLAMATION '!'
 #define LEX_LESS		'<'
 #define LEX_LESS_OR_EQUALS '$'
 #define LEX_MORE_OR_EQUALS '#'

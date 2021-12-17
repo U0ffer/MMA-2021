@@ -1,5 +1,5 @@
 ------ Протокол ------
-Дата: 15.12.2021 23:46:19  
+Дата: 17.12.2021 06:02:04  
 
 ------ Параметры ------
 -in:in.txt
@@ -8,116 +8,45 @@
 -mfst:mfst.txt
 
 ------ Исходные данные ------
-Количество символов: 992
-Проигнорировано: 78
-Количество строк: 83
+Количество символов: 284
+Проигнорировано: 8
+Количество строк: 19
 
 ------ Синтаксический анализ выполнен без ошибок ------
------- Семантический анализ выполнен без ошибок ------
 ------ Польская нотация выполнена без ошибок ------
------- Генерация кода выполнен без ошибок ------
 ------ Таблица идентификаторов ------
 index      name      type        id type     scope      lexTable index
-    0        fi      int         f          global              2
-    1         x      int         p              fi              5
-    2         y      int         p              fi              8
-    3         z      int         v              fi             13
-    4        L0      int         l              fi             21
-    5        L1      int         l              fi             28
-    6        L2      int         l              fi             31
-    7        L3      int         l              fi             43
-    8         a      int         v              fi             49
-    9         b      int         v              fi             53
-   10        L4      int         l              fi             57
-   11        L5      int         l              fi             61
-   12        L6      int         l              fi             65
-   13        L7      int         l              fi             67
-   14        L8      str         l         scope_0             71
-   15        L9      str         l              fi             75
-   16        fs      str         f          global             83
-   17         a      str         p              fs             86
-   18         b      str         p              fs             89
-   19         c      str         v              fs             94
-   20       L10      str         l              fs             98
-   21        fq      int         f          global            106
-   22         a      int         p              fq            109
-   23         x      int         v              fq            114
-   24       L11      int         l              fq            118
-   25     strln      int         f          global            136
-   26         p      str         p           strln            139
-   27      main      int         f          global            143
-   28       nmm      int         v            main            146
-   29       L12      int         l            main            152
-   30         x      int         v            main            159
-   31         y      int         v            main            163
-   32      test     bool         v            main            167
-   33       L13     bool         l            main            169
-   34         z      int         v            main            173
-   35         x      int         v         scope_1            178
-   36         x      int         v         scope_2            187
-   37       L14      int         l         scope_2            191
-   38        sa      str         v            main            206
-   39        sb      str         v            main            210
-   40        sc      str         v            main            214
-   41       L15      int         l            main            218
-   42       L16      str         l            main            228
-   43         x      int         v         scope_3            261
-   44       L17      str         l         scope_4            269
-   45       L18      str         l         scope_6            290
-   46       L19      int         l            main            306
-   47       L20      int         l            main            310
+    0     strln      int         f          global              3
+    1         p      str         p           strln              6
+    2        fi      str         f          global             11
+    3         x     bool         p              fi             14
+    4         o      int         p              fi             17
+    5        L0      str         l              fi             24
+    6      main      int         f          global             28
+    7      test     bool         v            main             31
+    8        L1      str         l            main             33
+    9        L2     bool         l            main             37
+   10       tes     bool         v            main             41
+   11        L3      int         l            main             43
+   12        L4      int         l            main             45
+   13        L5     bool         l            main             47
+   14        ui      str         v            main             57
+   15        L6      str         l            main             59
+   16        L7      str         l         scope_0             67
+   17        L8      int         l            main             71
 
 ------ Таблица лексем ------
-tfi<0>(ti<1>,ti<2>){dti<3>;
-i<3>=i<1>i<2>-l<4>-;
-i<3>=i<2>l<5>*l<6>i<1>i<1>i<2>+*/l<7>*l<5>/+;
-dti<8>;
-dti<9>;
-i<8>=l<10>;
-i<9>=l<11>;
-e(l<12>>l<13>){pl<14>;
-}pl<15>;
-ri<3>;
-}tfi<16>(ti<17>,ti<18>){dti<19>;
-i<19>=l<20>;
-ri<19>;
-}tfi<21>(ti<22>){dti<23>;
-i<23>=l<24>;
-pi<23>;
-i<23>=i<22>l<13>-;
-ri<22>;
-}dtfi<25>(ti<26>);
-m{dti<28>;
-i<28>=l<12>l<29>%;
-pi<28>;
-dti<30>;
-dti<31>;
-dti<32>=l<33>;
-dti<34>;
-{dti<35>;
-i<35>=l<29>;
-{dti<36>;
-i<36>=l<37>;
-i<34>=l<24>i<36>+;
-}pi<34>;
-}dti<38>;
-dti<39>;
-dti<40>;
-i<30>=l<41>;
-i<31>=l<13>l<13>*;
-i<38>=l<42>;
-i<39>=l<42>;
-i<34>=i<30>i<31>@<0>2;
-i<40>=i<38>i<39>@<16>2;
-e(i<30>>i<31>){dti<43>;
-i<43>=l<33>;
-{pl<44>;
-pi<43>;
-}}e(i<30><i<31>){pl<44>;
-}y{pl<45>;
-}pl<15>;
-pi<30>;
-pi<31>;
-i<30>=l<46>@<21>1;
-rl<47>;
+dtfi<0>(ti<1>);
+tfi<2>(ti<3>,ti<4>){pi<3>;
+rl<5>;
+}m{dti<7>=l<8>l<8>~l<9>~;
+dti<10>=l<11>l<12><l<13>&;
+pi<7>;
+pi<10>;
+dti<14>=l<15>;
+e(l<13>){pl<16>;
+}rl<17>;
 }
+
+------ Семантический анализ выполнен без ошибок ------
+------ Генерация кода выполнен без ошибок ------

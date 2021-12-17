@@ -32,18 +32,21 @@ int main(int argc, char* argv[])
 		Log::WriteLine(log, "------ Синтаксический анализ выполнен без ошибок ------", "");
 		mfst.savededucation();
 		mfst.printrules();
-		Sem::checkSemantic(lexTable, idTable);
-		Log::WriteLine(log, "------ Семантический анализ выполнен без ошибок ------", "");
 		PN::PolishNotation(lexTable, idTable);
 		Log::WriteLine(log, "------ Польская нотация выполнена без ошибок ------", "");
-		CG::Generation writeToOut = CG::Generation(lexTable, idTable, parm.out);
-		writeToOut.start();
-		Log::WriteLine(log, "------ Генерация кода выполнен без ошибок ------", "");
 		#ifdef _DEBUG
 			Log::WriteLine(log, "------ Таблица идентификаторов ------", "");
 			IT::ShowTable(idTable, log.stream);
 			Log::WriteLine(log, "------ Таблица лексем ------", "");
 			LT::ShowTable(lexTable, log.stream);
+		#endif		
+		Sem::SemanticAnalysis sem = Sem::SemanticAnalysis(lexTable, idTable);
+		sem.start();
+		Log::WriteLine(log, "------ Семантический анализ выполнен без ошибок ------", "");
+		CG::Generation writeToOut = CG::Generation(lexTable, idTable, parm.out);
+		writeToOut.start();
+		Log::WriteLine(log, "------ Генерация кода выполнен без ошибок ------", "");
+		#ifdef _DEBUG
 			CG::Generation writeToASM = CG::Generation(lexTable, idTable, "../MMA-ASM/asm.asm");
 			writeToASM.start();
 		#endif 

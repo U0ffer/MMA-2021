@@ -1,83 +1,19 @@
-uint function fi(uint x, uint y) 
-{ 
- declare uint z;
- z = x - y - -10;
- z= (y*45)+234/(x*(x+y)) * 34/45;
- declare uint a;
- declare uint b;
- a = 3;
- b = 2;
- if (10 > 5) 
- {
-	output 'jjhgjgjhjhg';
- }
- output 'контрольный пример'; 
- return z; 
-}
-string function fs (string a, string b) 
-{ 
- declare string c; 
- c = 'test string';
- return c; 
-}
-uint function fq(uint a) 
+declare uint function strln(string p);
+string function fi(bool x, uint o)
 {
-	declare uint x;
-	x = 6;
 	output x;
-	x = a -5;
-	return a;
+	return 'hello';
 }
-declare uint function strln(string p); 
 main 
-{ 
- declare uint nmm;
- nmm = 10 % 50;
- output nmm;
- declare uint x; 
- declare uint y; 
- declare bool test = true;
- declare uint z; 
- {
-  declare uint x;
-  x = 50;
-  {
-   declare uint x;
-   x = 100;
-   z = 6  + x;
-  }
-  output z;
- }
- declare string sa; 
- declare string sb; 
- declare string sc; 
-
- x = 3101o; 
- y = 5 * 5; 
- sa = '1234567890'; 
- sb = '1234567890'; 
- z = fi(x,y); 
- sc = fs(sa,sb); 
- if (x > y) 
- {
-  declare uint x;
-  x = 1;
-  {
-   output 'x > y';
-   output x;
-  }
- }
- if (x < y)
- {
-  output 'x > y';
- }
- else 
- {
-  output 'неправда';
- }
- output 'контрольный пример'; 
- output x;
- output y;
- x = fq(999999);
- return 0; 
+{
+declare bool test = 'a' == 'a' == false;
+declare bool tes = 100 < 78 != true; 
+output test;
+output tes;
+declare string ui = 'helloi43p';
+if (true)
+{
+	output 'Working!!';
+}
+return 10;
 }

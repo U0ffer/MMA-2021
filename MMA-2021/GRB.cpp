@@ -122,11 +122,12 @@ namespace GRB
 			Rule::Chain(3, TS('l'), TS(','), NS('N'))
 		),
 
-		Rule(NS('Z'), GRB_ERROR_SERIES + 7, 4,					// Ошибка в условии условного выражения	
+		Rule(NS('Z'), GRB_ERROR_SERIES + 7, 5,					// Ошибка в условии условного выражения	
 			Rule::Chain(5, TS('('), TS('i'), NS('L'), TS('i'), TS(')')),
 			Rule::Chain(5, TS('('), TS('i'), NS('L'), TS('l'), TS(')')),
 			Rule::Chain(5, TS('('), TS('l'), NS('L'), TS('i'), TS(')')),
-			Rule::Chain(5, TS('('), TS('l'), NS('L'), TS('l'), TS(')'))
+			Rule::Chain(5, TS('('), TS('l'), NS('L'), TS('l'), TS(')')),
+			Rule::Chain(3, TS('('), NS('V'), TS(')'))
 		),
 
 		Rule(NS('L'), GRB_ERROR_SERIES + 8, 6,					// Неверный условный оператор		
@@ -151,7 +152,7 @@ namespace GRB
 			Rule::Chain(1, TS('i'))
 		),
 
-		Rule(NS('W'), GRB_ERROR_SERIES + 11, 8,					// Ошибка в арифметичском выражении
+		Rule(NS('W'), GRB_ERROR_SERIES + 11, 10,					// Ошибка в арифметичском выражении
 			Rule::Chain(1, TS('i')),
 			Rule::Chain(1, TS('l')),
 			Rule::Chain(3, TS('('), NS('W'), TS(')')),
@@ -159,7 +160,9 @@ namespace GRB
 			Rule::Chain(2, TS('i'), NS('F')),
 			Rule::Chain(3, TS('i'), NS('A'), NS('W')),
 			Rule::Chain(4, TS('i'), NS('F'), NS('A'), NS('W')),
-			Rule::Chain(3, TS('l'), NS('A'), NS('W'))
+			Rule::Chain(3, TS('l'), NS('A'), NS('W')),
+			Rule::Chain(3, TS('i'), NS('L'), NS('W')),
+			Rule::Chain(3, TS('l'), NS('L'), NS('W'))
 		),
 
 		Rule(NS('K'), GRB_ERROR_SERIES + 12, 16,				// Недопустимая синтаксическая конструкция

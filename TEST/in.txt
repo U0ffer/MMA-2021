@@ -1,5 +1,69 @@
-main 
+string function fa(string x)
 {
+	declare string y =x;
+	return y;	
+}
+
+uint function fb(uint y)
+{
+	declare uint z = 15;
+	if (y > 10)
+	{
+		z = z + 20;
+	}
+	else 
+	{
+		z = 3;
+	}
+	return z;
+}
+bool function fc(string str)
+{
+	declare bool result;
+	result = str == 'a';
+	return result;
+}
+main
+{
+	declare bool test = false;
+	declare uint x = 1678;
+	declare uint y = 11;
+	declare uint z = 0;
+
+	z = x + y;
+	output z;
+	z = x * y;
+	output z;
+	z = x - y;
+	output z;
+	z = x / y;
+	output z;
+	z = x % y;
+	output z;
+
+	test = x < y;
+	output test;
+	test = x > y;
+	output test;
+	test = 10 == x;
+	output test;
+	test = 10 != x;
+	output test;
+	test = y <= 11;
+	output test;
+	test = y >= 11;
+	output test;
 	
+	if (x > y)
+	{
+		declare uint z = x + y;
+		output z;
+	}
+	else 
+	{
+		output 'block else works!!!';
+	}
+
 	return 0;
 }
+

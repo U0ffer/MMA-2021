@@ -348,11 +348,11 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjne\t\tNOTEQUAL" << i << "\n";
-			out << "\tpush\t\t0\n";
-			out << "\tje\t\tEQUAL" << i << "\n";
-			out << "EQUAL" << i << ":" << "\n";
+			out << "\tjz\t\tNOTEQUAL" << i << "\n";
 			out << "\tpush\t\t1\n";
+			out << "\tjnz\t\tEQUAL" << i << "\n";
+			out << "EQUAL" << i << ":" << "\n";
+			out << "\tpush\t\t0\n";
 			out << "NOTEQUAL" << i << ":";
 			out << "\n";
 		}
@@ -425,7 +425,6 @@ void CG::Generation::generateIfStatement(int& i)
 
 
 	if (lexTable.table[i + 3].lexema != LEX_RIGHTTHESIS) {
-		std::cout << idTable.table[lexTable.table[i + 2].idxTI].id << std::endl;
 		out << "\tpop\t\tebx\n";
 		out << "\tpop\t\teax\n";
 		out << "\tcmp\t\teax, ebx\n";

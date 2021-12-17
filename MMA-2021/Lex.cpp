@@ -126,8 +126,8 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					}
 					token = LEX_LITERAL;
 					break;
-				case LEX_INTEGER_LIT:
-					if (lextable.size >= 2 && lextable.table[lextable.size - 1].lexema == LEX_MINUS && lextable.table[lextable.size -2].idxTI == -1 )
+				case LEX_INTEGER_LIT: {
+					if (lextable.size >= 2 && lextable.table[lextable.size - 1].lexema == LEX_MINUS && lextable.table[lextable.size - 2].idxTI == -1)
 					{
 						word = "-" + word;
 						--lextable.size;
@@ -137,28 +137,34 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					}
 					if (std::stoi(word) > INT_MAX || std::stoi(word) < INT_MIN)
 						throw ERROR_THROW_IN(131, line, -1);
+					int temp = std::stoi(word);
 					ti_idx = IT::isLit(idtable, std::stoi(word));
 					if (ti_idx == TI_NULLIDX) {
-						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, std::stoi(word) });
+						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, static_cast<int>(temp) });
 						++counter;
 						ti_idx = idtable.size - 1;
 					}
 					token = LEX_LITERAL;
 					break;
-				case LEX_BOOL_LIT:
-					word = word == "true" ? "1" : "0";
-					ti_idx = IT::isLit(idtable, std::stoi(word));
+				}
+				case LEX_BOOL_LIT: {
+					word = (word == "true") ? "1\0" : "0\0";
+					std::cin.ignore(0, '\n');
+					bool temp = (bool)std::stoi(word);
+					ti_idx = IT::isLit(idtable, temp);
 					if (ti_idx == TI_NULLIDX) {
-						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, (bool)std::stoi(word) });
+						IT::Add(idtable, { lextable.size, "L" + std::to_string(counter), ti_scope.back(), IT::IDTYPE::L, static_cast<bool>(temp) });
 						++counter;
 						ti_idx = idtable.size - 1;
 					}
 					token = LEX_LITERAL;
 					break;
-				case LEX_EQUAL:
-					if (lextable.size >= 1 && (lextable.table[lextable.size - 1].lexema == LEX_MORE || lextable.table[lextable.size - 1].lexema == LEX_LESS || 
+				}
+				case LEX_EQUAL: {
+					if (lextable.size >= 1 && (lextable.table[lextable.size - 1].lexema == LEX_MORE || lextable.table[lextable.size - 1].lexema == LEX_LESS ||
 						lextable.table[lextable.size - 1].lexema == LEX_EQUAL || lextable.table[lextable.size - 1].lexema == LEX_EXCLAMATION)) {
-						switch (lextable.table[lextable.size - 1].lexema)
+						--lextable.size;
+						switch (lextable.table[lextable.size].lexema)
 						{
 						case LEX_MORE:
 							token = LEX_MORE_OR_EQUALS;
@@ -173,9 +179,9 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 							token = LEX_NOT_FULL_EQUALS;
 							break;
 						}
-						--lextable.size;
 					}
 					break;
+				}
 				case LEX_STRING:
 				case LEX_INTEGER:
 				case LEX_BOOL:

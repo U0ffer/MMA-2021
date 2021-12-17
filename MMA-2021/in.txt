@@ -1,19 +1,65 @@
-declare uint function strln(string p);
-string function fi(bool x, uint o)
+string function fa(string x)
 {
-	output x;
-	return 'hello';
+	declare string y =x;
+	return y;	
 }
-main 
+
+uint function fb(uint y)
 {
-declare bool test = 'a' == 'a' == false;
-declare bool tes = 100 < 78 != true; 
-output test;
-output tes;
-declare string ui = 'helloi43p';
-if (true)
+	declare uint z = 15;
+	if (y > 10)
+	{
+		z = z + 20;
+	}
+	else 
+	{
+		z = 3;
+	}
+	return z;
+}
+bool function fc(string str)
 {
-	output 'Working!!';
+	declare bool result;
+	result = 'a' == 'b';
+	return result;
 }
-return 10;
+main
+{
+	declare bool test = false;
+	declare uint x = 1678;
+	declare uint y = 11;
+	declare uint z = 0;
+	z = x + y;
+	output z;
+	z = x * y;
+	output z;
+	z = x - y;
+	output z;
+	z = x / y;
+	output z;
+	z = x % y;
+	output z;
+	test = x < y;
+	output test;
+	test = x > y;
+	output test;
+	test = x == 10;
+	output test;
+	test = 10 != 10;
+	output test;
+	test = y <= 11;
+	output test;
+	test = y >= 11;
+	output test;
+	if (x < y)
+	{
+		declare uint z = x + y;
+		output z;
+	}
+	else 
+	{
+		output 'block else works!!!';
+	}
+	return 0;
 }
+

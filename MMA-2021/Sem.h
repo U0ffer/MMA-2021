@@ -4,7 +4,7 @@
 #include "IT.h"
 
 #define NUMBER_OF_OPERATORS 11
-#define OPERATORS {'+', '-', '*', '/', '%', '<', '>', '$', '#', '~', '$'};
+#define OPERATORS {'+', '-', '*', '/', '%', '<', '>', '$', '#', '~', '&'};
 #define ARITHMETIC_OPERATORS  {IT::IDDATATYPE::UINT, '+', 1, IT::IDDATATYPE::UINT},\
 							  {IT::IDDATATYPE::UINT, '-', 1, IT::IDDATATYPE::UINT},\
 							  {IT::IDDATATYPE::UINT, '*', 1, IT::IDDATATYPE::UINT},\

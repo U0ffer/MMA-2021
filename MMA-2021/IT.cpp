@@ -100,6 +100,16 @@ namespace IT
 		return TI_NULLIDX;
 	}
 
+	int isLit(IdTable& idtable, bool lit) {
+		for (int i = 0; i < idtable.size; ++i) {
+			if (idtable.table[i].value.vbool == lit && idtable.table[i].idtype == IDTYPE::L)
+			{
+				return i;
+			}
+		}
+		return TI_NULLIDX;
+	}
+
 	void ShowTable(IdTable& idtable, std::ofstream* stream)
 	{
 		*stream << std::setw(5) << "index" << std::setw(10) << "name" << std::setw(10) << "type" << std::setw(15) << "id type" << std::setw(10) << "scope" << std::setw(20) << "lexTable index" << '\n';

@@ -73,6 +73,10 @@ namespace IT
 		IdTable& idtable,
 		int lit
 	);
+	int isLit(
+		IdTable& idtable,
+		bool lit
+	);
 	void ShowTable(IdTable& idtable, std::ofstream* stream);
 	void Delete(IdTable& idtable);
 };

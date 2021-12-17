@@ -54,7 +54,7 @@ void Sem::SemanticAnalysis::checkExpressioin(int& i)
 	}
 	IT::IDDATATYPE typeOfIdentificator = idTable.table[lexTable.table[i - 1].idxTI].iddatatype;
 	std::stack<IT::IDDATATYPE> types;
-	for (int j = i + 1; lexTable.table[j].lexema != LEX_SEMICOLON; ++j) {
+	for (int j = i; lexTable.table[j].lexema != LEX_SEMICOLON; ++j) {
 		char* findElement = std::find(std::begin(operators), std::end(operators), lexTable.table[j].lexema);
 		if (lexTable.table[j].lexema == LEX_ID || lexTable.table[j].lexema == LEX_LITERAL) {
 			if (idTable.table[lexTable.table[j].idxTI].idtype != IT::IDTYPE::F && lexTable.table[j + 1].lexema == LEX_LEFTTHESIS) {
@@ -62,20 +62,24 @@ void Sem::SemanticAnalysis::checkExpressioin(int& i)
 			}
 			types.push(idTable.table[lexTable.table[j].idxTI].iddatatype);
 		}
-		else if (findElement != std::end(operators)) {
+		else if (findElement != std::end(operators)) { 
 			IT::IDDATATYPE elem1 = types.top();
 			types.pop();
 			IT::IDDATATYPE elem2 = types.top();
 			types.pop();
 			auto oper = operTypes[std::distance(operators, findElement)];
-			if (elem1 == elem2 && std::find(std::begin(oper.parmTypes), std::end(oper.parmTypes), elem1) != std::end(oper.parmTypes)) 
+			if (elem1 == elem2 && std::find(std::begin(oper.parmTypes), std::end(oper.parmTypes), elem1) != std::end(oper.parmTypes)) {
 				types.push(oper.returnType);
+			}
 			else
 				throw ERROR_THROW_IN(308, lexTable.table[j].sn, -1);
 		}
 	}
-	if (types.top() != typeOfIdentificator)
+	if (types.top() != typeOfIdentificator) {
+
 		throw ERROR_THROW_IN(304, lexTable.table[i].sn, -1);
+	}
+
 }
 
 bool Sem::SemanticAnalysis::start()

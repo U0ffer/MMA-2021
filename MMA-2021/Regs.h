@@ -28,7 +28,4 @@
 #define REG_ELSE "else"
 #define REG_MORE ">"
 #define REG_LESS "<"
-#define REG_MORE_OR_EQUALS ">="
-#define REG_LESS_OR_EQUALS "<="
-#define REG_FULL_EQUALS "=="
-#define REG_NOT_FULL_EQUALS "!="
+#define REG_EXCLAMATION "!"

@@ -34,6 +34,7 @@ void CG::Generation::head()
 	out << "_compare PROTO : DWORD, :DWORD\n";
 	out << "_strln PROTO : DWORD\n";
 	out << "_out PROTO : DWORD\n";
+	out << "_outBool PROTO : DWORD\n";
 	out << "_outInt PROTO : DWORD\n\n";
 	out << "\n.stack 4096\n";
 }
@@ -52,7 +53,7 @@ void CG::Generation::constants()
 			if (idTable.table[i].iddatatype == IT::IDDATATYPE::UINT)
 				out << " DWORD " << idTable.table[i].value.vint;
 			if (idTable.table[i].iddatatype == IT::IDDATATYPE::BOOL)
-				out << " BYTE " << (idTable.table[i].value.vbool == 1 ? 255 : 0);
+				out << " DWORD " << idTable.table[i].value.vbool;
 			out << '\n';
 		}
 }
@@ -74,7 +75,7 @@ void CG::Generation::data()
 					out << "\t\tDWORD ? ; str\n";
 					break;
 				case IT::IDDATATYPE::BOOL:
-					out << "\t\tBYTE 0 ; bool\n";
+					out << "\t\tDWORD 0 ; bool\n";
 					break;
 			}
 		}
@@ -91,7 +92,6 @@ void CG::Generation::generateFunctionProto(int &i)
 	}
 	isFunc = true;
 	indOfFunc = i + 1;
-	std::cout << idTable.table[lexTable.table[indOfFunc].idxTI].id;
 	out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " PROC ";
 	int backup = i;
 	while (lexTable.table[i].lexema != LEX_RIGHTTHESIS)
@@ -101,14 +101,8 @@ void CG::Generation::generateFunctionProto(int &i)
 		if (lexTable.table[i].lexema == LEX_ID)
 		{
 			out << '_' << idTable.table[lexTable.table[i].idxTI].scope << idTable.table[lexTable.table[i].idxTI].id;
-			if (idTable.table[lexTable.table[i].idxTI].iddatatype == IT::IDDATATYPE::BOOL) {
-				out << ": BYTE";
-				stackRet += 1;
-			}
-			else {
-				out << ": DWORD";
-				stackRet += 4;
-			}
+			out << ": DWORD";
+			stackRet += 4;
 
 			if (lexTable.table[i - 2].lexema != LEX_LEFTTHESIS)
 				out << ", ";
@@ -209,6 +203,11 @@ void CG::Generation::generatePrint(int& i)
 				<< idTable.table[lexTable.table[i + 1].idxTI].id;
 			out << "\n\tcall\t\t_outInt\n\n";
 		}
+		else if (idTable.table[lexTable.table[i + 1].idxTI].iddatatype == IT::IDDATATYPE::BOOL) {
+			out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 1].idxTI].scope
+				<< idTable.table[lexTable.table[i + 1].idxTI].id;
+			out << "\n\tcall\t\t_outBool\n\n";
+		}
 		else {
 			out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 1].idxTI].scope
 				<< idTable.table[lexTable.table[i + 1].idxTI].id;
@@ -219,6 +218,10 @@ void CG::Generation::generatePrint(int& i)
 		if (idTable.table[lexTable.table[i + 1].idxTI].iddatatype == IT::IDDATATYPE::UINT) {
 			out << "\tpush\t\t" << idTable.table[lexTable.table[i + 1].idxTI].id;
 			out << "\n\tcall\t\t_outInt\n\n";
+		}
+		else if (idTable.table[lexTable.table[i + 1].idxTI].iddatatype == IT::IDDATATYPE::BOOL) {
+			out << "\tpush\t\t" << idTable.table[lexTable.table[i + 1].idxTI].id;
+			out << "\n\tcall\t\t_outBool\n\n";
 		}
 		else {
 			out << "\tpush\t\toffset " << idTable.table[lexTable.table[i + 1].idxTI].id;
@@ -239,11 +242,14 @@ void CG::Generation::generateEqual(int& i)
 			}
 		}
 		if (lexTable.table[i].lexema == LEX_LITERAL) {
-			if (idTable.table[lexTable.table[i].idxTI].iddatatype == IT::IDDATATYPE::UINT)
+			if (idTable.table[lexTable.table[i].idxTI].iddatatype == IT::IDDATATYPE::UINT ||
+				idTable.table[lexTable.table[i].idxTI].iddatatype == IT::IDDATATYPE::BOOL)
 				out << "\tpush\t\t";
 			else
 				out << "\tpush\t\toffset ";
 			out << idTable.table[lexTable.table[i].idxTI].id << "\n";
+
+			
 		}
 		if (lexTable.table[i].lexema == LEX_COMMERCIAL_AT)
 		{
@@ -312,12 +318,12 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tja\t\tMORE" << lexTable.table[i].sn << "\n";
+			out << "\tja\t\tMORE" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tjb\t\tLESS" << lexTable.table[i].sn << "\n";
-			out << "MORE" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tjb\t\tLESS" << i << "\n";
+			out << "MORE" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "LESS" << lexTable.table[i].sn << ":";
+			out << "LESS" << i << ":";
 			out << "\n";
 		}
 
@@ -327,12 +333,12 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjb\t\tLESS" << lexTable.table[i].sn << "\n";
+			out << "\tjb\t\tLESS" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tja\t\tMORE" << lexTable.table[i].sn << "\n";
-			out << "LESS" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tja\t\tMORE" << i << "\n";
+			out << "LESS" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "MORE" << lexTable.table[i].sn << ":";
+			out << "MORE" << i << ":";
 			out << "\n";
 		}
 
@@ -342,12 +348,12 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjne\t\tNOTEQUAL" << lexTable.table[i].sn << "\n";
+			out << "\tjne\t\tNOTEQUAL" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tje\t\tEQUAL" << lexTable.table[i].sn << "\n";
-			out << "EQUAL" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tje\t\tEQUAL" << i << "\n";
+			out << "EQUAL" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "NOTEQUAL" << lexTable.table[i].sn << ":";
+			out << "NOTEQUAL" << i << ":";
 			out << "\n";
 		}
 
@@ -357,12 +363,12 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjne\t\tNOTEQUAL" << lexTable.table[i].sn << "\n";
+			out << "\tjne\t\tNOTEQUAL" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tje\t\tEQUAL" << lexTable.table[i].sn << "\n";
-			out << "NOTEQUAL" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tje\t\tEQUAL" << i << "\n";
+			out << "NOTEQUAL" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "EQUAL" << lexTable.table[i].sn << ":";
+			out << "EQUAL" << i << ":";
 			out << "\n";
 		}
 
@@ -372,12 +378,12 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjae\t\tMOREOREQUAL" << lexTable.table[i].sn << "\n";
+			out << "\tjae\t\tMOREOREQUAL" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tjnb\t\tLESS" << lexTable.table[i].sn << "\n";
-			out << "MOREOREQUAL" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tjnb\t\tLESS" << i << "\n";
+			out << "MOREOREQUAL" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "LESS" << lexTable.table[i].sn << ":";
+			out << "LESS" << i << ":";
 			out << "\n";
 		}
 
@@ -387,23 +393,19 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tpop\t\tebx\n";
 			out << "\tpop\t\teax\n";
 			out << "\tcmp\t\teax, ebx\n";
-			out << "\tjbe\t\tLESSOREQUALS" << lexTable.table[i].sn << "\n";
+			out << "\tjbe\t\tLESSOREQUALS" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tjna\t\tMORE" << lexTable.table[i].sn << "\n";
-			out << "LESSOREQUALS" << lexTable.table[i].sn << ":" << "\n";
+			out << "\tjna\t\tMORE" << i << "\n";
+			out << "LESSOREQUALS" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
-			out << "MORE" << lexTable.table[i].sn << ":";
+			out << "MORE" << i << ":";
 			out << "\n";
 		}
 		i++;
 	}
-	if (idTable.table[lexTable.table[indOflex].idxTI].iddatatype == IT::IDDATATYPE::BOOL)
-		out <<"\tpop\t\t\t" << "dword ptr " << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
+	out << "\tpop\t\t\t" << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
 		<< idTable.table[lexTable.table[indOflex].idxTI].id << "\n\n";
-	else
-		out << "\tpop\t\t\t" << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
-			<< idTable.table[lexTable.table[indOflex].idxTI].id << "\n\n";
-	}
+}
 
 void CG::Generation::generateIfStatement(int& i)
 {
@@ -411,19 +413,28 @@ void CG::Generation::generateIfStatement(int& i)
 	flagelse = 0;
 	++ifStatement;
 	char operation = ' ';
-	if (lexTable.table[i + 2].lexema != LEX_LITERAL)
+	if (lexTable.table[i + 2].lexema == LEX_ID)
 		out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 2].idxTI].scope << idTable.table[lexTable.table[i + 2].idxTI].id << "\n";
-	else
+	else if (lexTable.table[i + 2].lexema == LEX_LITERAL)
 		out << "\tpush\t\t" << idTable.table[lexTable.table[i + 2].idxTI].id << "\n";
 
-	if (lexTable.table[i + 4].lexema != LEX_LITERAL)
-		out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 2].idxTI].scope << idTable.table[lexTable.table[i + 4].idxTI].id << "\n";
-	else
+	if (lexTable.table[i + 4].lexema == LEX_ID)
+		out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 4].idxTI].scope << idTable.table[lexTable.table[i + 4].idxTI].id << "\n";
+	else if (lexTable.table[i + 4].lexema == LEX_LITERAL)
 		out << "\tpush\t\t" << idTable.table[lexTable.table[i + 4].idxTI].id << "\n";
 
-	out << "\tpop\t\tebx\n";
-	out << "\tpop\t\teax\n";
-	out << "\tcmp\t\teax, ebx\n";
+
+	if (lexTable.table[i + 3].lexema != LEX_RIGHTTHESIS) {
+		std::cout << idTable.table[lexTable.table[i + 2].idxTI].id << std::endl;
+		out << "\tpop\t\tebx\n";
+		out << "\tpop\t\teax\n";
+		out << "\tcmp\t\teax, ebx\n";
+	}
+	else {
+		
+		out << "\tpop\t\teax\n";
+		out << "\tcmp\t\teax, 1\n";
+	}
 	Ifsn = lexTable.table[i].sn;
 	int j = i;
 	int countOfMrequals = 0;

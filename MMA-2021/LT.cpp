@@ -43,5 +43,6 @@ namespace LT {
 				if (lextable.table[i].idxTI != -1) *stream << "<" << lextable.table[i].idxTI << ">";
 			}
 		}
+		*stream << std::endl << std::endl;
 	}
 }

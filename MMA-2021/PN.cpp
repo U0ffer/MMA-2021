@@ -44,20 +44,17 @@ void PN::ConvertToPolishNotation(LT::LexTable &lexTable, IT::IdTable &idtable, i
 			copy.lexema = LEX_COMMERCIAL_AT;
 			copy.idxTI = lexTable.table[index].idxTI;
 			++index;
-			int countOfCommas = 0;
+			int countOfParams = 0;
 			while (lexTable.table[index].lexema != LEX_RIGHTTHESIS) {
-				if (lexTable.table[index].lexema == LEX_COMMA)
-				{
-					++countOfCommas;
-				}
 				if (((lexTable.table[index].lexema != LEX_COMMA) && (lexTable.table[index].lexema == LEX_ID || lexTable.table[index].lexema == LEX_LITERAL)))
 				{
+					++countOfParams;
 					expression[expressionSize++] = lexTable.table[index];
 				}
 				++index;
 			}
 			expression[expressionSize++] = copy;
-			expression[expressionSize].lexema = std::to_string(countOfCommas + 1).front();
+			expression[expressionSize].lexema = std::to_string(countOfParams).front();
 			expression[expressionSize++].idxTI = -1;
 		}
 		else if (stack.empty() || stack.top().lexema == LEX_LEFTTHESIS) {

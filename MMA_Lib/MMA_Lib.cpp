@@ -44,4 +44,11 @@ extern "C" {
 		std::cout << ptr << std::endl;
 		return;
 	}
+
+	void _stdcall _outBool(long value)
+	{
+		if (value == 0) std::cout << "false" << std::endl;
+		else std::cout << "true" << std::endl;
+		return;
+	}
 }

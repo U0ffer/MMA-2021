@@ -6,20 +6,18 @@
 #include "Log.h"
 
 char Lex::GetToken(std::string str) {
-	std::array<std::string, 32> regexps = {
+	std::array<std::string, 29> regexps = {
 		REG_DECLARE, REG_STRING, REG_INTEGER, REG_FUNCTION, REG_RETURN, REG_PRINT,
 		REG_MAIN, REG_INTEGER_LIT, REG_STRING_LIT, REG_SEMICOLON, REG_COMMA,
 		REG_MREQUAL, REG_LSEQUAL, REG_LEFTTHESIS, REG_RIGHTTHESIS, REG_PLUS, REG_MINUS,
-		REG_STAR, REG_DIRSLASH, REG_EQUAL,REG_IF, REG_ELSE, REG_MORE, REG_LESS, REG_LESS_OR_EQUALS,
-		REG_MORE_OR_EQUALS, REG_FULL_EQUALS, REG_NOT_FULL_EQUALS, REG_BOOL, REG_BOOL_LIT, REG_REM_AFTER_DIVIDING,
+		REG_STAR, REG_DIRSLASH, REG_EQUAL,REG_IF, REG_ELSE, REG_MORE, REG_LESS, REG_EXCLAMATION, REG_BOOL, REG_BOOL_LIT, REG_REM_AFTER_DIVIDING,
 		REG_ID
 	};
-	std::array<char, 32> tokens = {
+	std::array<char, 29> tokens = {
 		LEX_DECLARE, LEX_STRING, LEX_INTEGER, LEX_FUNCTION, LEX_RETURN, LEX_PRINT,
 		LEX_MAIN, LEX_INTEGER_LIT, LEX_STRING_LIT, LEX_SEMICOLON, LEX_COMMA,
 		LEX_MREQUAL, LEX_LSEQUAL, LEX_LEFTTHESIS, LEX_RIGHTTHESIS, LEX_PLUS, LEX_MINUS,
-		LEX_STAR, LEX_DIRSLASH, LEX_EQUAL, LEX_IF, LEX_ELSE, LEX_MORE, LEX_LESS, LEX_LESS_OR_EQUALS,
-		LEX_MORE_OR_EQUALS, LEX_FULL_EQUALS, LEX_NOT_FULL_EQUALS, LEX_BOOL, LEX_BOOL_LIT, LEX_REM_AFTER_DIVIDING,
+		LEX_STAR, LEX_DIRSLASH, LEX_EQUAL, LEX_IF, LEX_ELSE, LEX_MORE, LEX_LESS, LEX_EXCLAMATION, LEX_BOOL, LEX_BOOL_LIT, LEX_REM_AFTER_DIVIDING,
 		LEX_ID
 	};
 	for (int i = 0; i < sizeof(regexps) / sizeof(regexps[0]); ++i) {
@@ -86,8 +84,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 							IT::Add(idtable, { lextable.size, word, ti_scope.back(), iddatatype, IT::IDTYPE::P });
 						}
 						else {
-							std::cout << word << std::endl;
-							throw ERROR_THROW_IN(307, line, -1);
+							throw ERROR_THROW_IN(131, line, -1);
 						}
 						ti_idx = idtable.size  - 1;
 					}
@@ -157,6 +154,27 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						ti_idx = idtable.size - 1;
 					}
 					token = LEX_LITERAL;
+					break;
+				case LEX_EQUAL:
+					if (lextable.size >= 1 && (lextable.table[lextable.size - 1].lexema == LEX_MORE || lextable.table[lextable.size - 1].lexema == LEX_LESS || 
+						lextable.table[lextable.size - 1].lexema == LEX_EQUAL || lextable.table[lextable.size - 1].lexema == LEX_EXCLAMATION)) {
+						switch (lextable.table[lextable.size - 1].lexema)
+						{
+						case LEX_MORE:
+							token = LEX_MORE_OR_EQUALS;
+							break;
+						case LEX_EQUAL:
+							token = LEX_FULL_EQUALS;
+							break;
+						case LEX_LESS:
+							token = LEX_LESS_OR_EQUALS;
+							break;
+						case LEX_EXCLAMATION:
+							token = LEX_NOT_FULL_EQUALS;
+							break;
+						}
+						--lextable.size;
+					}
 					break;
 				case LEX_STRING:
 				case LEX_INTEGER:

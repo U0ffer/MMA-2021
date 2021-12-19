@@ -16,6 +16,7 @@ namespace CG
 	private:
 		bool isMain;
 		bool isFunc;
+		IT::IDDATATYPE typeOfFunction;
 		int stackRet;
 		int indOflex;
 		int ifStatement;

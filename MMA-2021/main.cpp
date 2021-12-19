@@ -29,17 +29,15 @@ int main(int argc, char* argv[])
 		Lex::Scan(lexTable, idTable, in, parm, log);
 		MFST::Mfst mfst(lexTable, GRB::getGreibach(), parm.mfst);
 		mfst.start(*log.stream);
+		Log::WriteLine(log, "------ Таблица идентификаторов ------", "");
+		IT::ShowTable(idTable, log.stream);
+		Log::WriteLine(log, "------ Таблица лексем ------", "");
+		LT::ShowTable(lexTable, log.stream);
 		Log::WriteLine(log, "------ Синтаксический анализ выполнен без ошибок ------", "");
 		mfst.savededucation();
 		mfst.printrules();
 		PN::PolishNotation(lexTable, idTable);
 		Log::WriteLine(log, "------ Польская нотация выполнена без ошибок ------", "");
-		#ifdef _DEBUG
-			Log::WriteLine(log, "------ Таблица идентификаторов ------", "");
-			IT::ShowTable(idTable, log.stream);
-			Log::WriteLine(log, "------ Таблица лексем ------", "");
-			LT::ShowTable(lexTable, log.stream);
-		#endif		
 		Sem::SemanticAnalysis sem = Sem::SemanticAnalysis(lexTable, idTable);
 		sem.start();
 		Log::WriteLine(log, "------ Семантический анализ выполнен без ошибок ------", "");
@@ -50,9 +48,6 @@ int main(int argc, char* argv[])
 			CG::Generation writeToASM = CG::Generation(lexTable, idTable, "../MMA-ASM/asm.asm");
 			writeToASM.start();
 		#endif 
-		#ifndef _DEBUG
-			system("start compile.bat");
-		#endif
 		Log::Close(log);
 	}
 	catch (Error::ERROR err)
@@ -60,6 +55,5 @@ int main(int argc, char* argv[])
 		Log::WriteError(log, err);
 		Log::Close(log);
 	}
-	system("pause");
 	return 0;
 }

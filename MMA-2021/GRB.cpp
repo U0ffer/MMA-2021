@@ -176,12 +176,12 @@ namespace GRB
 			Rule::Chain(6, TS('e'), NS('Z'), TS('{') ,NS('K'), TS('}'), NS('K')),
 			Rule::Chain(10, TS('e'), NS('Z'), TS('{') ,NS('K'), TS('}'), TS('y'), TS('{'),NS('K'), TS('}'), NS('K')),
 			Rule::Chain(4, TS('i'), NS('F'), TS(';'), NS('K')),
-			Rule::Chain(6, TS('d'), TS('t'), TS('i'), TS('='), NS('W'), TS(';')),	// декларация + присваивание
-			Rule::Chain(4, TS('d'), TS('t'), TS('i'), TS(';')),			// декларация
-			Rule::Chain(3, TS('p'), NS('V'), TS(';')),					// вывод					
+			Rule::Chain(6, TS('d'), TS('t'), TS('i'), TS('='), NS('W'), TS(';')),	
+			Rule::Chain(4, TS('d'), TS('t'), TS('i'), TS(';')),			
+			Rule::Chain(3, TS('p'), NS('V'), TS(';')),									
 			Rule::Chain(5, TS('e'), NS('Z'), TS('{') ,NS('K'), TS('}')),
 			Rule::Chain(9, TS('e'), NS('Z'), TS('{') ,NS('K'), TS('}'), TS('y'), TS('{'),NS('K'), TS('}')),
-			Rule::Chain(3, TS('i'), NS('F'), TS(';'))					// вызов функции
+			Rule::Chain(3, TS('i'), NS('F'), TS(';'))					
 		)
 	);
 #pragma endregion

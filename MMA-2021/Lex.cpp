@@ -63,6 +63,7 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 					isMain == 0 ? ++isMain : throw ERROR_THROW(128);
 					break;
 				case LEX_ID:
+					if (word.size() > 10) throw ERROR_THROW_IN(133, line, -1);
 					if (lextable.size >= 3 && lextable.table[lextable.size - 2].lexema != LEX_DECLARE && lextable.table[lextable.size - 3].lexema != LEX_DECLARE) {		
 						ti_idx = IT::IsId(idtable, word, ti_scope);
 					}
@@ -133,10 +134,10 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 						--lextable.size;
 					}
 					if (word[word.length() - 1] == 'o') {
-						word = std::to_string(std::stoi(word, 0, 8));
+						word = std::to_string(std::stol(word, 0, 8));
 					}
-					if (std::stoi(word) > INT_MAX || std::stoi(word) < INT_MIN)
-						throw ERROR_THROW_IN(131, line, -1);
+					if (std::stoll(word) > LONG_MAX || std::stoll(word) < LONG_MIN)
+						throw ERROR_THROW_IN(130, line, -1);
 					int temp = std::stoi(word);
 					ti_idx = IT::isLit(idtable, std::stoi(word));
 					if (ti_idx == TI_NULLIDX) {
@@ -217,6 +218,10 @@ void Lex::Scan(LT::LexTable& lextable, IT::IdTable& idtable, In::IN& in, Parm::P
 			}
 		}
 		else if (in.code[ch] == In::IN::T || findStringLit) {
+			if (findStringLit && word.size() > TI_STR_MAXSIZE)
+				throw ERROR_THROW_IN(124, line, -1);
+			else if (i + 1 == in.text.size() && in.text[i] != '\'')
+				throw ERROR_THROW(132);
 			word += ch;
 		}
 	}

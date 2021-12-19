@@ -4,9 +4,9 @@ includelib libucrt.lib
 includelib kernel32.lib
 includelib ../Debug/MMA_Lib.lib
 ExitProcess PROTO : DWORD
-_compare PROTO : DWORD, :DWORD
-_strln PROTO : DWORD
-_out PROTO : DWORD
+_strCmp PROTO : DWORD, :DWORD
+_strLen PROTO : DWORD
+_outStr PROTO : DWORD
 _outBool PROTO : DWORD
 _outInt PROTO : DWORD
 
@@ -15,179 +15,65 @@ _outInt PROTO : DWORD
 .const
 	_DIVISION_BY_ZERO_ERROR BYTE 'Ошибка выполнения: деление на ноль', 0
 	_OVERFLOW_ERROR BYTE 'Ошибка выполнения: переполнение', 0
-	L0 DWORD 15
-	L1 DWORD 10
-	L2 DWORD 20
-	L3 DWORD 3
-	L4 BYTE 'a', 0
-	L5 BYTE 'b', 0
-	L6 DWORD 0
-	L7 DWORD 1678
-	L8 DWORD 11
-	L9 DWORD 0
-	L10 BYTE 'block else works!!!', 0
+	_NEGATIVE_RESULT_ERROR BYTE 'Ошибка выполнения: попытка присвоения отрицательного значения', 0
+	L0 DWORD 1
+	L1 DWORD 0
+	L2 BYTE 'aaa', 0
+	L3 BYTE 'bbb', 0
+	L4 BYTE 'Строка 1 больше строки 2', 0
+	L5 DWORD 2
+	L6 BYTE 'Строка 2 больше строки 1', 0
+	L7 DWORD 3
+	L8 BYTE 'Длина строк не совпадает,или передана пустая строка', 0
+	L9 BYTE 'hello', 0
 .data
-	_fay		DWORD ? ; str
-	_fbz		DWORD 0 ; uint
-	_fcresult		DWORD 0 ; bool
-	_maintest		DWORD 0 ; bool
+	_factorialret		DWORD 0 ; uint
+	_scope_2y		DWORD 0 ; uint
+	_strCmpTestres		DWORD 0 ; uint
+	_strCmpTestoutStr		DWORD ? ; str
 	_mainx		DWORD 0 ; uint
 	_mainy		DWORD 0 ; uint
-	_mainz		DWORD 0 ; uint
-	_scope_2z		DWORD 0 ; uint
+	_mainz		DWORD ? ; str
 
 .code
-_fa PROC _fax: DWORD
-	push		_fax
-	pop			_fay
-
-
-
-	jmp EXIT
-EXIT_DIV_ON_NULL:
-	push offset _DIVISION_BY_ZERO_ERROR
-	call _out
-	push -1
-	call ExitProcess
-
-EXIT_OVERFLOW:
-	push offset _OVERFLOW_ERROR
-	call _out
-	push -2
-	call ExitProcess
-
-EXIT:
-	mov		eax, _fay
-	ret		4
-_fa ENDP
-
-_fb PROC _fby: DWORD
+_factorial PROC _factorialx: DWORD
 	push		L0
-	pop			_fbz
+	pop			_factorialret
 
-	push		_fby
+	cmp			_factorialret, 0
+	jl			NEGATIVE_RESULT
+	push		_factorialx
 	push		L1
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jna		FALSE9
-	jnb		TRUE9
-TRUE9: 
-	push		_fbz
-	push		L2
+	jnb		FALSE4
+	push		L1
+	pop			_factorialret
 
-	pop		eax
-	pop		ebx
-	add		eax, ebx
-	jo		EXIT_OVERFLOW
-	push		eax
-
-	pop			_fbz
-
-	jmp		IFOUT9
-FALSE9: 
-	push		L3
-	pop			_fbz
-
-IFOUT9: 
-
-
-	jmp EXIT
-EXIT_DIV_ON_NULL:
-	push offset _DIVISION_BY_ZERO_ERROR
-	call _out
-	push -1
-	call ExitProcess
-
-EXIT_OVERFLOW:
-	push offset _OVERFLOW_ERROR
-	call _out
-	push -2
-	call ExitProcess
-
-EXIT:
-	mov		eax, _fbz
-	ret		4
-_fb ENDP
-
-_fc PROC _fcstr: DWORD
-	push		offset L4
-	push		offset L5
-
+	cmp			_factorialret, 0
+	jl			NEGATIVE_RESULT
+FALSE4: 
+	push		_factorialx
+	push		L1
 	pop		ebx
 	pop		eax
 	cmp		eax, ebx
-	jz		NOTEQUAL73
-	push		1
-	jnz		EQUAL73
-EQUAL73:
-	push		0
-NOTEQUAL73:
-	pop			_fcresult
+	jne		FALSE8
+	push		L0
+	pop			_factorialret
 
-
-
-	jmp EXIT
-EXIT_DIV_ON_NULL:
-	push offset _DIVISION_BY_ZERO_ERROR
-	call _out
-	push -1
-	call ExitProcess
-
-EXIT_OVERFLOW:
-	push offset _OVERFLOW_ERROR
-	call _out
-	push -2
-	call ExitProcess
-
-EXIT:
-	mov		eax, _fcresult
-	ret		4
-_fc ENDP
-
-main PROC
-	push		L6
-	pop			_maintest
-
-	push		L7
-	pop			_mainx
-
-	push		L8
-	pop			_mainy
-
-	push		L9
-	pop			_mainz
-
-	push		_mainx
-	push		_mainy
-
-	pop		eax
-	pop		ebx
-	add		eax, ebx
-	jo		EXIT_OVERFLOW
-	push		eax
-
-	pop			_mainz
-
-	push		_mainz
-	call		_outInt
-
-	push		_mainx
-	push		_mainy
-
+	cmp			_factorialret, 0
+	jl			NEGATIVE_RESULT
+FALSE8: 
+	push		_factorialx
+	push		L1
 	pop		ebx
 	pop		eax
-	imul		eax, ebx
-	jo		EXIT_OVERFLOW
-	push		eax
-
-	pop			_mainz
-
-	push		_mainz
-	call		_outInt
-
-	push		_mainx
-	push		_mainy
+	cmp		eax, ebx
+	jna		FALSE12
+	push		_factorialx
+	push		L0
 
 	pop		ebx
 	pop		eax
@@ -195,192 +81,165 @@ main PROC
 	jo		EXIT_OVERFLOW
 	push		eax
 
-	pop			_mainz
+	pop			_scope_2y
 
-	push		_mainz
-	call		_outInt
-
-	push		_mainx
-	push		_mainy
+	cmp			_scope_2y, 0
+	jl			NEGATIVE_RESULT
+	push		_scope_2y
+	call		_factorial
+	push		eax
+	push		_factorialx
 
 	pop		ebx
 	pop		eax
-	test		ebx, ebx
-	jz		EXIT_DIV_ON_NULL
-	cdq
-	idiv		ebx
+	imul		eax, ebx
 	jo		EXIT_OVERFLOW
 	push		eax
 
-	pop			_mainz
+	pop			_factorialret
 
-	push		_mainz
-	call		_outInt
-
-	push		_mainx
-	push		_mainy
-
-	pop		ebx
-	pop		eax
-	test		ebx, ebx
-	jz		EXIT_DIV_ON_NULL
-	cdq
-	idiv		ebx
-	jo		EXIT_OVERFLOW
-	push		edx
-
-	pop			_mainz
-
-	push		_mainz
-	call		_outInt
-
-	push		_mainx
-	push		_mainy
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jb		LESS154
-	push		0
-	ja		MORE154
-LESS154:
-	push		1
-MORE154:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		_mainx
-	push		_mainy
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	ja		MORE163
-	push		0
-	jb		LESS163
-MORE163:
-	push		1
-LESS163:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		_mainx
-	push		L1
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jz		NOTEQUAL172
-	push		1
-	jnz		EQUAL172
-EQUAL172:
-	push		0
-NOTEQUAL172:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		L1
-	push		L1
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jne		NOTEQUAL181
-	push		0
-	je		EQUAL181
-NOTEQUAL181:
-	push		1
-EQUAL181:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		_mainy
-	push		L8
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jbe		LESSOREQUALS190
-	push		0
-	jna		MORE190
-LESSOREQUALS190:
-	push		1
-MORE190:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		_mainy
-	push		L8
-
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jae		MOREOREQUAL199
-	push		0
-	jnb		LESS199
-MOREOREQUAL199:
-	push		1
-LESS199:
-	pop			_maintest
-
-	push		_maintest
-	call		_outBool
-
-	push		_mainx
-	push		_mainy
-	pop		ebx
-	pop		eax
-	cmp		eax, ebx
-	jnb		FALSE53
-	jna		TRUE53
-TRUE53: 
-	push		_mainx
-	push		_mainy
-
-	pop		eax
-	pop		ebx
-	add		eax, ebx
-	jo		EXIT_OVERFLOW
-	push		eax
-
-	pop			_scope_2z
-
-	push		_scope_2z
-	call		_outInt
-
-	jmp		IFOUT53
-FALSE53: 
-	push		offset L10
-	call		_out
-
-IFOUT53: 
+	cmp			_factorialret, 0
+	jl			NEGATIVE_RESULT
+FALSE12: 
 
 
 	jmp EXIT
 EXIT_DIV_ON_NULL:
 	push offset _DIVISION_BY_ZERO_ERROR
-	call _out
+	call _outStr 
 	push -1
 	call ExitProcess
 
 EXIT_OVERFLOW:
 	push offset _OVERFLOW_ERROR
-	call _out
+	call _outStr 
 	push -2
 	call ExitProcess
 
+NEGATIVE_RESULT: 
+	push offset _NEGATIVE_RESULT_ERROR
+	call _outStr 
+	push -3
+	call ExitProcess
+
 EXIT:
-	push		L9
+	mov		eax, _factorialret
+	ret		4
+_factorial ENDP
+
+_strCmpTest PROC 
+	push		offset L2
+	push		offset L3
+	call		_strCmp
+	push		eax
+	pop			_strCmpTestres
+
+	cmp			_strCmpTestres, 0
+	jl			NEGATIVE_RESULT
+	push		_strCmpTestres
+	push		L0
+	pop		ebx
+	pop		eax
+	cmp		eax, ebx
+	jne		FALSE25
+	push		offset L4
+	pop			_strCmpTestoutStr
+
+FALSE25: 
+	push		_strCmpTestres
+	push		L5
+	pop		ebx
+	pop		eax
+	cmp		eax, ebx
+	jne		FALSE29
+	push		offset L6
+	pop			_strCmpTestoutStr
+
+FALSE29: 
+	push		_strCmpTestres
+	push		L7
+	pop		ebx
+	pop		eax
+	cmp		eax, ebx
+	jne		FALSE33
+	push		offset L8
+	pop			_strCmpTestoutStr
+
+FALSE33: 
+
+
+	jmp EXIT
+EXIT_DIV_ON_NULL:
+	push offset _DIVISION_BY_ZERO_ERROR
+	call _outStr 
+	push -1
+	call ExitProcess
+
+EXIT_OVERFLOW:
+	push offset _OVERFLOW_ERROR
+	call _outStr 
+	push -2
+	call ExitProcess
+
+NEGATIVE_RESULT: 
+	push offset _NEGATIVE_RESULT_ERROR
+	call _outStr 
+	push -3
+	call ExitProcess
+
+EXIT:
+	mov		eax, _strCmpTestoutStr
+	ret		0
+_strCmpTest ENDP
+
+main PROC
+	push		offset L9
+	call		_strLen
+	push		eax
+	pop			_mainx
+
+	cmp			_mainx, 0
+	jl			NEGATIVE_RESULT
+	push		_mainx
+	call		_factorial
+	push		eax
+	pop			_mainy
+
+	cmp			_mainy, 0
+	jl			NEGATIVE_RESULT
+	push		_mainy
+	call		_outInt
+
+	call		_strCmpTest
+	push		eax
+	pop			_mainz
+
+	push		_mainz
+	call		_outStr 
+
+
+
+	jmp EXIT
+EXIT_DIV_ON_NULL:
+	push offset _DIVISION_BY_ZERO_ERROR
+	call _outStr 
+	push -1
+	call ExitProcess
+
+EXIT_OVERFLOW:
+	push offset _OVERFLOW_ERROR
+	call _outStr 
+	push -2
+	call ExitProcess
+
+NEGATIVE_RESULT: 
+	push offset _NEGATIVE_RESULT_ERROR
+	call _outStr 
+	push -3
+	call ExitProcess
+
+EXIT:
+	push		L1
 	call		ExitProcess
 
 main ENDP

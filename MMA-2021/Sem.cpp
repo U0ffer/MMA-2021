@@ -21,12 +21,20 @@ void Sem::SemanticAnalysis::checkTypeOfReturn(int& i)
 	else if (!isMain && (idTable.table[lexTable.table[i + 1].idxTI].iddatatype != typeOfFunction)) {
 		throw ERROR_THROW_IN(301, lexTable.table[i].sn, -1);
 	}
+	if (!isMain && (idTable.table[lexTable.table[i + 1].idxTI].iddatatype == IT::IDDATATYPE::UINT) && idTable.table[lexTable.table[i + 1].idxTI].idtype == IT::IDTYPE::L && idTable.table[lexTable.table[i + 1].idxTI].value.vint < 0) {
+		throw ERROR_THROW_IN(310, lexTable.table[i].sn, -1);
+	}
 }
 
 void Sem::SemanticAnalysis::checkIfExpression(int& i)
 {
 	if (lexTable.table[i + 3].lexema == LEX_RIGHTTHESIS && idTable.table[lexTable.table[i +2].idxTI].iddatatype != IT::IDDATATYPE::BOOL) {
 		throw ERROR_THROW_IN(309, lexTable.table[i].sn, -1);
+	}
+	char* findElement = std::find(std::begin(operators), std::end(operators), lexTable.table[i + 3].lexema);
+	auto oper = operTypes[std::distance(operators, findElement)];
+	if (idTable.table[lexTable.table[i + 2].idxTI].iddatatype != idTable.table[lexTable.table[i + 4].idxTI].iddatatype || std::find(std::begin(oper.parmTypes), std::end(oper.parmTypes), idTable.table[lexTable.table[i + 2].idxTI].iddatatype) == std::end(oper.parmTypes)) {
+		throw ERROR_THROW_IN(308, lexTable.table[i].sn, -1);
 	}
 }
 
@@ -62,6 +70,9 @@ void Sem::SemanticAnalysis::checkExpressioin(int& i)
 			}
 			types.push(idTable.table[lexTable.table[j].idxTI].iddatatype);
 		}
+		else if (lexTable.table[j].lexema == LEX_COMMERCIAL_AT && idTable.table[lexTable.table[j].idxTI].idtype == IT::IDTYPE::F) {
+			types.push(idTable.table[lexTable.table[j].idxTI].iddatatype);
+		}
 		else if (findElement != std::end(operators)) { 
 			IT::IDDATATYPE elem1 = types.top();
 			types.pop();
@@ -93,8 +104,10 @@ bool Sem::SemanticAnalysis::start()
 		if (token == LEX_RETURN) checkTypeOfReturn(i);
 		else if (token == LEX_MAIN) isMain = true;
 		else if (token == LEX_COMMERCIAL_AT) checkCallOfFunction(i);
-		else if (token == LEX_ID && idTable.table[lexTable.table[i].idxTI].idxfirstLE != i && lexTable.table[i - 2].lexema == LEX_DECLARE)
+		else if (token == LEX_ID && idTable.table[lexTable.table[i].idxTI].idxfirstLE != i && lexTable.table[i - 2].lexema == LEX_DECLARE) {
+			std::cout << i << "\t" << idTable.table[lexTable.table[i].idxTI].idxfirstLE << std::endl;
 			throw ERROR_THROW_IN(306, lexTable.table[i].sn, -1);
+		}
 		else if (token == LEX_FUNCTION && ((i - 2 < 0) || lexTable.table[i - 2].lexema != LEX_DECLARE)) {
 			typeOfFunction = idTable.table[lexTable.table[i + 1].idxTI].iddatatype;
 			isMain = false;

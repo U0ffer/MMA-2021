@@ -89,8 +89,8 @@ namespace MFST
 		}
 		else
 		{
-			rc = LENTA_END;
-			MFST_TRACE4(LENTA_END);
+			rc = st.size() == 1 ? LENTA_END : NS_NORULE;
+			MFST_TRACE4(rc);
 		};
 		return rc;
 	};

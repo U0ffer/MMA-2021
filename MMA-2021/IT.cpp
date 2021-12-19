@@ -112,10 +112,10 @@ namespace IT
 
 	void ShowTable(IdTable& idtable, std::ofstream* stream)
 	{
-		*stream << std::setw(5) << "index" << std::setw(10) << "name" << std::setw(10) << "type" << std::setw(15) << "id type" << std::setw(10) << "scope" << std::setw(20) << "lexTable index" << '\n';
+		*stream << std::setw(5) << "index" << std::setw(15) << "name" << std::setw(10) << "type" << std::setw(15) << "id type" << std::setw(10) << "scope" << std::setw(20) << "lexTable index" << '\n';
 		for (int i = 0; i < idtable.size; ++i) 
 		{
-			*stream << std::setw(5) << i << std::setw(10) << idtable.table[i].id << std::setw(10);
+			*stream << std::setw(5) << i << std::setw(15) << idtable.table[i].id << std::setw(10);
 			if (idtable.table[i].iddatatype == IDDATATYPE::UINT)
 				*stream << "int ";
 			else if (idtable.table[i].iddatatype == IDDATATYPE::STR)

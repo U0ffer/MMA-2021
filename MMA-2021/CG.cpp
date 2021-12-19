@@ -28,12 +28,12 @@ void CG::Generation::head()
 		out << "includelib ../Debug/MMA_Lib.lib\n";
 	#endif
 	#ifndef _DEBUG
-			out << "includelib MMA_Lib.lib\n";
+			out << "includelib ../../Debug/MMA_Lib.lib\n";
 	#endif
 	out << "ExitProcess PROTO : DWORD\n";
-	out << "_compare PROTO : DWORD, :DWORD\n";
-	out << "_strln PROTO : DWORD\n";
-	out << "_out PROTO : DWORD\n";
+	out << "_strCmp PROTO : DWORD, :DWORD\n";
+	out << "_strLen PROTO : DWORD\n";
+	out << "_outStr PROTO : DWORD\n";
 	out << "_outBool PROTO : DWORD\n";
 	out << "_outInt PROTO : DWORD\n\n";
 	out << "\n.stack 4096\n";
@@ -44,12 +44,19 @@ void CG::Generation::constants()
 	out << ".const\n";
 	out << "\t_DIVISION_BY_ZERO_ERROR BYTE 'Ошибка выполнения: деление на ноль', 0\n";
 	out << "\t_OVERFLOW_ERROR BYTE 'Ошибка выполнения: переполнение', 0\n";
+	out << "\t_NEGATIVE_RESULT_ERROR BYTE 'Ошибка выполнения: попытка присвоения отрицательного значения', 0\n";
 	for (int i = 0; i < idTable.size; i++)
 		if (idTable.table[i].idtype == IT::IDTYPE::L)
 		{
 			out << "\t" << idTable.table[i].id;
 			if (idTable.table[i].iddatatype == IT::IDDATATYPE::STR)
-				out << " BYTE " << '\'' << idTable.table[i].value.vstr.str << '\'' << ", 0";
+			{
+				if (idTable.table[i].value.vstr.len == 0)
+					out << " BYTE " << "?";
+				else
+					out << " BYTE " << '\'' << idTable.table[i].value.vstr.str << '\'' << ", 0";
+			}
+				
 			if (idTable.table[i].iddatatype == IT::IDDATATYPE::UINT)
 				out << " DWORD " << idTable.table[i].value.vint;
 			if (idTable.table[i].iddatatype == IT::IDDATATYPE::BOOL)
@@ -84,12 +91,14 @@ void CG::Generation::data()
 
 void CG::Generation::generateFunctionProto(int &i)
 {
-	if (lexTable.size >= 2 && lexTable.table[i - 2].lexema == LEX_DECLARE)
+	if (i >= 2 && lexTable.table[i - 2].lexema == LEX_DECLARE)
 		return;
 	if (isMain) {
+		typeOfFunction = IT::IDDATATYPE::UINT;
 		out << "main PROC\n";
 		return;
 	}
+	typeOfFunction == idTable.table[lexTable.table[i + 1].idxTI].iddatatype;
 	isFunc = true;
 	indOfFunc = i + 1;
 	out << '_' << idTable.table[lexTable.table[indOfFunc].idxTI].id << " PROC ";
@@ -115,8 +124,9 @@ void CG::Generation::generateFunctionProto(int &i)
 
 void CG::Generation::generateFunctionReturn(int &i)
 {
-	out << "\n\n\tjmp EXIT\nEXIT_DIV_ON_NULL:\n\tpush offset _DIVISION_BY_ZERO_ERROR\n\tcall _out\n\tpush -1\n\tcall ExitProcess";
-	out << "\n\nEXIT_OVERFLOW:\n\tpush offset _OVERFLOW_ERROR\n\tcall _out\n\tpush -2\n\tcall ExitProcess";
+	out << "\n\n\tjmp EXIT\nEXIT_DIV_ON_NULL:\n\tpush offset _DIVISION_BY_ZERO_ERROR\n\tcall _outStr \n\tpush -1\n\tcall ExitProcess";
+	out << "\n\nEXIT_OVERFLOW:\n\tpush offset _OVERFLOW_ERROR\n\tcall _outStr \n\tpush -2\n\tcall ExitProcess";
+	out << "\n\nNEGATIVE_RESULT: \n\tpush offset _NEGATIVE_RESULT_ERROR\n\tcall _outStr \n\tpush -3\n\tcall ExitProcess";
 	out << "\n\nEXIT:\n";
 	if (isMain) {
 		out << "\tpush\t\t";
@@ -138,6 +148,11 @@ void CG::Generation::generateFunctionReturn(int &i)
 				out << "\tmov\t\teax, offset " << idTable.table[lexTable.table[i + 1].idxTI].id << "\n\tret\t\t" << stackRet << std::endl;
 		}
 		else {
+			if (typeOfFunction == IT::IDDATATYPE::UINT) {
+				out << "\tcmp\t\t\t" << '_' << idTable.table[lexTable.table[i + 1].idxTI].scope
+					<< idTable.table[lexTable.table[i + 1].idxTI].id << ", 0\n";
+				out << "\tjl\t\t\t" << "NEGATIVE_RESULT\n";
+			}
 			if (idTable.table[lexTable.table[i + 1].idxTI].idtype == IT::IDTYPE::L)
 				out << "\tmov\t\teax, " << idTable.table[lexTable.table[i + 1].idxTI].id
 				<< "\n\tret\t\t" << stackRet << std::endl;
@@ -211,7 +226,7 @@ void CG::Generation::generatePrint(int& i)
 		else {
 			out << "\tpush\t\t" << '_' << idTable.table[lexTable.table[i + 1].idxTI].scope
 				<< idTable.table[lexTable.table[i + 1].idxTI].id;
-			out << "\n\tcall\t\t_out\n\n";
+			out << "\n\tcall\t\t_outStr \n\n";
 		}
 	}
 	else if (lexTable.table[i + 1].lexema == LEX_LITERAL) {
@@ -225,7 +240,7 @@ void CG::Generation::generatePrint(int& i)
 		}
 		else {
 			out << "\tpush\t\toffset " << idTable.table[lexTable.table[i + 1].idxTI].id;
-			out << "\n\tcall\t\t_out\n\n";
+			out << "\n\tcall\t\t_outStr \n\n";
 		}
 	}
 }
@@ -320,7 +335,7 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tcmp\t\teax, ebx\n";
 			out << "\tja\t\tMORE" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tjb\t\tLESS" << i << "\n";
+			out << "\tjbe\t\tLESS" << i << "\n";
 			out << "MORE" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
 			out << "LESS" << i << ":";
@@ -335,7 +350,7 @@ void CG::Generation::generateEqual(int& i)
 			out << "\tcmp\t\teax, ebx\n";
 			out << "\tjb\t\tLESS" << i << "\n";
 			out << "\tpush\t\t0\n";
-			out << "\tja\t\tMORE" << i << "\n";
+			out << "\tjae\t\tMORE" << i << "\n";
 			out << "LESS" << i << ":" << "\n";
 			out << "\tpush\t\t1\n";
 			out << "MORE" << i << ":";
@@ -403,8 +418,14 @@ void CG::Generation::generateEqual(int& i)
 		}
 		i++;
 	}
+
 	out << "\tpop\t\t\t" << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
 		<< idTable.table[lexTable.table[indOflex].idxTI].id << "\n\n";
+	if (idTable.table[lexTable.table[indOflex].idxTI].iddatatype == IT::IDDATATYPE::UINT) {
+		out << "\tcmp\t\t\t" << '_' << idTable.table[lexTable.table[indOflex].idxTI].scope
+			<< idTable.table[lexTable.table[indOflex].idxTI].id << ", 0\n";
+		out << "\tjl\t\t\t" << "NEGATIVE_RESULT\n";
+	}
 }
 
 void CG::Generation::generateIfStatement(int& i)

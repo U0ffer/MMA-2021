@@ -1,65 +1,47 @@
-string function fa(string x)
+uint function factorial(uint x)
 {
-	declare string y =x;
-	return y;	
-}
-
-uint function fb(uint y)
-{
-	declare uint z = 15;
-	if (y > 10)
+	new uint ret = 1;
+	if (x < 0)
 	{
-		z = z + 20;
+		ret =  0;
 	}
-	else 
+	if (x == 0)
 	{
-		z = 3;
+		ret = 1;
 	}
-	return z;
+	if (x > 0)
+	{
+		new uint y = x - 1;
+		ret = factorial(y) * x;
+	}
+	return ret;
 }
-bool function fc(string str)
+new uint function strCmp(string a, string b);
+new uint function strLen(string a);
+string function strCmpTest()
 {
-	declare bool result;
-	result = 'a' == 'b';
-	return result;
+	new uint res = strCmp('aaa', 'bbb');
+	new string outStr;
+	if (res == 1) 
+	{
+		outStr = 'Строка 1 больше строки 2';
+	}
+	if (res == 2) 
+	{
+		outStr = 'Строка 2 больше строки 1';
+	}
+	if (res == 3)
+	{
+		outStr = 'Длина строк не совпадает, или передана пустая строка';
+	}
+	return outStr;
 }
 main
 {
-	declare bool test = false;
-	declare uint x = 1678;
-	declare uint y = 11;
-	declare uint z = 0;
-	z = x + y;
+	new uint x = strLen('hello');
+	new uint y = factorial(x);
+	output y;
+	new string z = strCmpTest();
 	output z;
-	z = x * y;
-	output z;
-	z = x - y;
-	output z;
-	z = x / y;
-	output z;
-	z = x % y;
-	output z;
-	test = x < y;
-	output test;
-	test = x > y;
-	output test;
-	test = x == 10;
-	output test;
-	test = 10 != 10;
-	output test;
-	test = y <= 11;
-	output test;
-	test = y >= 11;
-	output test;
-	if (x < y)
-	{
-		declare uint z = x + y;
-		output z;
-	}
-	else 
-	{
-		output 'block else works!!!';
-	}
 	return 0;
 }
-

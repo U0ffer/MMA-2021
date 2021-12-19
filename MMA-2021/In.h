@@ -5,23 +5,23 @@
 
 
 #define IN_CODE_TABLE {\
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::SPC, IN::S, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::SPC, IN::T, IN::T, IN::T, IN::T, IN::T, IN::F, IN::T, IN::LX, IN::LX, IN::LX, IN::LX, IN::LX, IN::LX, IN::F, IN::LX, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::LX, IN::T, IN::LX, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::F, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::LX, IN::T, IN::LX, IN::T, IN::F, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::SPC, IN::S,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::F,   IN::F,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::SPC, IN::LX, IN::F, IN::F, IN::F, IN::LX, IN::F, IN::T, IN::LX, IN::LX,  IN::LX, IN::LX, IN::LX,  IN::LX, IN::F,  IN::LX,\
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::LX, IN::LX,  IN::LX, IN::LX, IN::F, \
+	IN::F,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::F,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::LX, IN::F,   IN::LX, IN::F,  IN::F, \
 																													\
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, IN::F, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
-	IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, IN::T, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::F,   IN::F,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::F,   IN::F,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::F,   IN::F,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::F,   IN::F,  IN::F, IN::F, IN::F, IN::F,  IN::F, IN::F, IN::F,  IN::F,   IN::F,  IN::F,  IN::F,   IN::F,  IN::F,  IN::F, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
+	IN::T,   IN::T,  IN::T, IN::T, IN::T, IN::T,  IN::T, IN::T, IN::T,  IN::T,   IN::T,  IN::T,  IN::T,   IN::T,  IN::T,  IN::T, \
 }
 
 namespace In

@@ -6,12 +6,20 @@ int Preorities(char operation) {
 	if (operation == LEX_LEFTTHESIS || operation == LEX_RIGHTTHESIS) {
 		return 1;
 	}
-	if (operation == LEX_MINUS || operation == LEX_PLUS) {
+	if (operation == LEX_FULL_EQUALS || operation == LEX_NOT_FULL_EQUALS) {
 		return 2;
 	}
-	if (operation == LEX_STAR || operation == LEX_DIRSLASH) {
+	if (operation == LEX_LESS || operation == LEX_MORE ||
+		operation == LEX_LESS_OR_EQUALS || operation == LEX_MORE_OR_EQUALS) {
 		return 3;
 	}
+	if (operation == LEX_MINUS || operation == LEX_PLUS) {
+		return 4;
+	}
+	if (operation == LEX_STAR || operation == LEX_DIRSLASH || LEX_REM_AFTER_DIVIDING) {
+		return 5;
+	}
+
 }
 
 void PN::ConvertToPolishNotation(LT::LexTable &lexTable, IT::IdTable &idtable, int index, LT::Entry* expression)
@@ -84,13 +92,17 @@ void PN::ConvertToPolishNotation(LT::LexTable &lexTable, IT::IdTable &idtable, i
 		}
 		--lexTable.size;
 	}
+	for (int i = 0; i < idtable.size; ++i) {
+		if (idtable.table[i].idxfirstLE > startPosition)
+			idtable.table[i].idxfirstLE -= index - (startPosition + expressionSize);
+	}
 }
 
 
 void PN::PolishNotation(LT::LexTable &lexTable, IT::IdTable &idTable)
 {
 	for (auto i = 0; i < lexTable.size; ++i) {
-		if (lexTable.table[i].lexema == LEX_EQUAL || lexTable.table[i].lexema == LEX_RETURN) {
+		if (lexTable.table[i].lexema == LEX_EQUAL) {
 			LT::Entry expression[100];
 			PN::ConvertToPolishNotation(lexTable, idTable, i + 1, expression);
 		}
